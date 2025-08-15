@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Train",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": "--epochs 24 --batch-size=128 --img-size 256 --out-dir runs/me3/female_v1 --device cuda"
+        },
+        {
+            "name": "Python Debugger: Generate Codes",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "capture_images.py",
+            "console": "integratedTerminal",
+            "args": "--op generate_codes"
+        },
+        {
+            "name": "Python Debugger: Capture Images",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "capture_images.py",
+            "console": "integratedTerminal",
+            "args": "--op capture_images"
+        }
+    ]
+}

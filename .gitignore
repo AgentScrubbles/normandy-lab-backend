@@ -1,0 +1,7 @@
+tests/
+venv/
+output/
+runs/
+dataset/
+__pycache__/
+temp.jpg
