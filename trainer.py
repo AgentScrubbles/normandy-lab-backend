@@ -1,9 +1,10 @@
 import argparse
+from io import BytesIO
 import os
 import random
 import string
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 
 import numpy as np
 import torch
@@ -212,38 +213,38 @@ class Trainer:
                 print("  -> saved best.pt")
         writer.close()
 
-    def infer(self, args):
-        device = torch.device(args.device if torch.cuda.is_available() or args.device == 'cpu' else 'cpu')
-        ckpt = torch.load(args.ckpt, map_location=device)
+    def infer(self, image_source: Union[str, BytesIO], ckpt_location: str, device:str = 'cpu', image_size: int = 256, verbose = False, beam_width: int = 10, topn: int = 1):
+        device = torch.device(device if torch.cuda.is_available() or device == 'cpu' else 'cpu')
+        ckpt = torch.load(ckpt_location, map_location=device)
         model = CodePredictor(self.NUM_CLASSES_PER_DIGIT).to(device)
         model.load_state_dict(ckpt['model'])
-        tf = self.make_transforms(args.img_size, aug=False)
-        img_base = self.load_image_for_infer(args.infer_image, args.img_size, margin_ratio=0.3)
-        img_base = self.resize_max_side(img_base, args.img_size)
+        tf = self.make_transforms(image_size, aug=False)
+        img_base = self.load_image_for_infer(image_source, image_size, margin_ratio=0.3)
+        img_base = self.resize_max_side(img_base, image_size)
         img = tf(img_base)
         probs = self.softmax_heads(model, img, device) # type: ignore
 
         # top-k per digit (optional print)
-        if args.verbose:
+        if verbose:
             for pos, pr in enumerate(probs):
                 topv, topi = torch.topk(pr, k=min(3, pr.numel()))
                 choices = [(self.IDX2CHAR[pos][i.item()], float(v.item())) for v, i in zip(topv, topi)] # type: ignore
                 print(f"Pos {pos+1:02d}: {choices}")
 
         # beam search for full codes
-        codes = self.beam_search_codes(probs, beam_width=args.beam_width, topn=args.topn)
-        print("Top candidates:")
-        for code, p in codes:
-            print(f"  {code}  (prob ~ {p:.6f})")
+        codes = self.beam_search_codes(probs, beam_width=beam_width, topn=topn)
+        resp = []
+        for keypair in codes:
+            resp.append(keypair[0])
+        return (resp, img_base)
 
-        if (args.capture_live_dir is not None):
-            os.makedirs(args.capture_live_dir, exist_ok=True)
-            img = self.schema.capture_image(code)
-            if (img is not None):
-                path = Path(args.infer_image)
-                out_image_path = f"{Path(args.capture_live_dir)}/{path.stem}.png"
-                overlayed_image = self.place_next_to(img, img_base)
-                overlayed_image.save(out_image_path)
+        # if (capture_live_dir is not None):
+        #     os.makedirs(capture_live_dir, exist_ok=True)
+        #     img = self.schema.capture_image(code)            if (img is not None):
+        #         path = Path(infer_image)
+        #         out_image_path = f"{Path(capture_live_dir)}/{path.stem}.png"
+        #         overlayed_image = self.place_next_to(img, img_base)
+        #         overlayed_image.save(out_image_path)
 
     def place_next_to(self, base_img: Image.Image, small_img: Image.Image, margin: int = 0) -> Image.Image:
         """
@@ -330,14 +331,18 @@ class Trainer:
         return beams[:topn]
 
 
-    def load_image_for_infer(self, path: str, img_size: int, margin_ratio: float = 0.5) -> Image.Image:
+    def load_image_for_infer(self, image_source: Union[str, BytesIO], img_size: int, margin_ratio: float = 0.5) -> Image.Image:
         """
         margin_ratio: fraction of face height to extend the crop on all sides
         """
+        if isinstance(image_source, str):
+            # Disk path
+            img = face_recognition.load_image_file(image_source)
+        else:
+            # File-like (BytesIO from POST)
+            image_source.seek(0)  # reset stream position
+            img = face_recognition.load_image_file(image_source)
         
-        
-        # Load image
-        img = face_recognition.load_image_file(path)
         h_img, w_img, _ = img.shape
         
         # Detect faces

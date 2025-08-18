@@ -3,5 +3,7 @@ venv/
 output/
 runs/
 dataset/
+ckpt/
+.env
 __pycache__/
 temp.jpg

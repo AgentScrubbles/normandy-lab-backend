@@ -106,4 +106,4 @@ if __name__ == '__main__':
     if args.infer_image is None:
         trainer.train(args)
     else:
-        trainer.infer(args)
+        trainer.infer(image_source=args.infer_image, ckpt_location=args.ckpt, device=args.device, image_size=args.image_size, verbose=args.verbose, beam_width=args.beam_width, topn=args.topn)

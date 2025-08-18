@@ -8,3 +8,6 @@ tensorboard>=2.16.0
 matplotlib>=3.8.0
 pandas>=2.2.0
 face_recognition
+flask
+pyautogui
+python-dotenv

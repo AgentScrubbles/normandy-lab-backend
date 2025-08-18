@@ -27,6 +27,21 @@
             "program": "capture_images.py",
             "console": "integratedTerminal",
             "args": "--op capture_images"
-        }
+        },
+        {
+            "name": "Python Debugger: Flask",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
     ]
 }
