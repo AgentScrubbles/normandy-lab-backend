@@ -1,8 +1,6 @@
 from base_schema import BaseSchema, Slider, register_schema
 import string
-import pyautogui
 import os
-from PIL import ImageGrab
 
 if os.getenv("APP_MODE") != "docker":
     import pyautogui

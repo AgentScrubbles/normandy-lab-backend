@@ -1,13 +1,11 @@
 from base_schema import BaseSchema, Slider
 import string
-import pyautogui
-import time
-import subprocess
-import re
 import os
-from pathlib import Path
-from PIL import ImageGrab
-import pyperclip
+
+if os.getenv("APP_MODE") != "docker":
+    import pyautogui
+    from PIL import ImageGrab
+
 
 from window_helpers import add_to_clipboard, setup_window
 
@@ -84,6 +82,8 @@ class ME1_Female_Schema(BaseSchema):
             return [str(i) for i in range(1, 10)] + list(string.ascii_uppercase[:n-9])
         
     def paste_code(self):
+        if pyautogui is None:
+            raise RuntimeError("pyautogui not available in this environment")
         pyautogui.click(x=self.PASTE_BUTTON[0], y=self.PASTE_BUTTON[1])
         pyautogui.sleep(0.1)
         pyautogui.click(x=self.PASTE_BUTTON[0], y=self.PASTE_BUTTON[1])
@@ -105,6 +105,8 @@ class ME1_Female_Schema(BaseSchema):
         
     def capture_image(self, code):
         try:
+            if ImageGrab is None:
+                raise RuntimeError("ImageGrab not available in this environment")
             add_to_clipboard(code)
             setup_window(self.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
             self.paste_code()
