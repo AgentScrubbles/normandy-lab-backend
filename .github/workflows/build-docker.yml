@@ -27,12 +27,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date '+%Y%m%d-%H%M')"
+
       # Step 4: Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/agentscrubbles/normandy-lab-backend:latest .
+          docker build -t ghcr.io/agentscrubbles/normandy-lab-backend:${{ steps.date.outputs.date }} .
+          docker tag ghcr.io/agentscrubbles/normandy-lab-backend:${{ steps.date.outputs.date }} ghcr.io/agentscrubbles/normandy-lab-backend:latest
 
       # Step 5: Optionally push to Docker Hub
       - name: Push Docker image
         run: |
+          docker push ghcr.io/agentscrubbles/normandy-lab-backend:${{ steps.date.outputs.date }}
           docker push ghcr.io/agentscrubbles/normandy-lab-backend:latest
