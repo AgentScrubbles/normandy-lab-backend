@@ -1,6 +1,4 @@
-import argparse
 from io import BytesIO
-import os
 import random
 import string
 from pathlib import Path
@@ -10,7 +8,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader, random_split
+from torch.utils.data import Dataset, DataLoader
 
 import torchvision
 from torchvision import transforms
@@ -20,7 +18,10 @@ from torch.utils.tensorboard import SummaryWriter
 from PIL import Image
 
 
-from base_schema import BaseSchema, all_schemas, get_schema
+from base_schema import BaseSchema, get_schema
+
+from schemas.me1_female import ME1_Female_Schema
+from schemas.me3_female import ME3_Female_Schema
 
 
 class Trainer:

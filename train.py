@@ -27,28 +27,12 @@ The script will also output top-N full-code suggestions (beam search) with proba
 """
 
 import argparse
-import os
-import random
-import string
-from pathlib import Path
-from typing import Dict, List, Tuple
 
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader, random_split
+from base_schema import all_schemas, get_schema
+from trainer import Trainer
 
-import torchvision
-from torchvision import transforms
-from PIL import Image
-import face_recognition
-from torch.utils.tensorboard import SummaryWriter
-
-from base_schema import BaseSchema, all_schemas, get_schema
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me3_female import ME3_Female_Schema
-from trainer import Trainer
 
 
 # -----------------------------

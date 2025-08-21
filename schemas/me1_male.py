@@ -9,16 +9,16 @@ if os.getenv("APP_MODE") != "docker":
 
 from window_helpers import add_to_clipboard, setup_window
 
-@register_schema("me1_female")
-class ME1_Female_Schema(BaseSchema):
+@register_schema("me1_male")
+class ME1_Male_Schema(BaseSchema):
 
     # --- Configuration ---
     WINDOW_KEYWORD = "Mass Effect"  # Update this
-    CODE_FILE = 'female_codes.txt'
+    CODE_FILE = 'me1_male_codes.txt'
     RENDER_WAIT_TIME = 1
     ANGLES = 5
     DRAG_PIXELS = 50
-    OUTPUT_DIR = "dataset/me1/female/"
+    OUTPUT_DIR = "dataset/me1/male/"
     DEFAULT_CODE = '0' * 37
 
     WINDOW_LOCATION = (4000, 2000)
@@ -57,14 +57,12 @@ class ME1_Female_Schema(BaseSchema):
             Slider(27, "Nose Shape", 13, True),  # KEY
             Slider(28, "Nose Height", 33),
             Slider(29, "Nose Depth", 33),
-            Slider(30, "Hair Color", 23, True),  # KEY
-            Slider(31, "Hair Style", 21, True),  # KEY
-            Slider(32, "Brow", 17, True),        # KEY
-            Slider(33, "Brow Color", 21),
-            Slider(34, "Blush Color", 33),
-            Slider(35, "Lip Color", 34),
-            Slider(36, "Eye Shadow Color", 36),
-            Slider(37, "Scar", 12, True)         # KEY
+            Slider(30, "Hair", 25, True),  # KEY
+            Slider(31, "Beard", 14, True),  # KEY
+            Slider(32, "Brow", 7, True),        # KEY
+            Slider(33, "Hair Color", 22),
+            Slider(34, "Facial Hair Color", 20, True),
+            Slider(35, "Scar", 13, True)
         ]
 
     def get_options_per_index(self) -> list[int]:
