@@ -7,6 +7,8 @@ from base_schema import BaseSchema, all_schemas, get_schema
 
 # Supported Schemas
 from schemas.me3_female import ME3_Female_Schema # type: ignore
+from schemas.me1_female import ME1_Female_Schema
+from schemas.me1_male import ME1_Male_Schema
 
 
 from dotenv import load_dotenv

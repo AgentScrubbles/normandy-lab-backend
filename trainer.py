@@ -3,6 +3,8 @@ import random
 import string
 from pathlib import Path
 from typing import Dict, List, Tuple, Union
+import os
+import boto3
 
 import numpy as np
 import torch
@@ -22,7 +24,14 @@ from base_schema import BaseSchema, get_schema
 
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me3_female import ME3_Female_Schema
+from schemas.me1_male import ME1_Male_Schema
 
+CACHE_DIR = os.getenv('CACHE_DIR', '/tmp/models')
+S3_BUCKET = os.getenv('S3_BUCKET')
+S3_REGION = os.getenv('S3_REGION')
+S3_ACCESS_KEY = os.getenv('S3_ACCESS_KEY')
+S3_SECRET_ACCESS_KEY = os.getenv('S3_SECRET_ACCESS_KEY')
+S3_ENDPOINT = os.getenv('S3_ENDPOINT')
 
 class Trainer:
 
@@ -68,6 +77,24 @@ class Trainer:
                 transforms.ToTensor(),
                 normalize,
             ])
+        
+    def get_model_checkpoint(self, key: str) -> str:
+        """
+        Ensures the checkpoint file is available locally. 
+        Downloads from S3 if not already cached.
+        Returns the local path.
+        """
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        local_path = os.path.join(CACHE_DIR, os.path.basename(key))
+
+        if not os.path.exists(local_path):
+            s3 = boto3.client("s3", region_name=S3_REGION, aws_access_key_id=S3_ACCESS_KEY, aws_secret_access_key=S3_SECRET_ACCESS_KEY, endpoint_url=S3_ENDPOINT)
+            s3.download_file(S3_BUCKET, key, local_path)
+            print(f"Downloaded model checkpoint to {local_path}")
+        else:
+            print(f"Using cached checkpoint at {local_path}")
+
+        return local_path
 
 
     @torch.no_grad()
@@ -214,16 +241,17 @@ class Trainer:
                 print("  -> saved best.pt")
         writer.close()
 
-    def infer(self, image_source: Union[str, BytesIO], ckpt_location: str, device:str = 'cpu', image_size: int = 256, verbose = False, beam_width: int = 10, topn: int = 1):
-        device = torch.device(device if torch.cuda.is_available() or device == 'cpu' else 'cpu')
-        ckpt = torch.load(ckpt_location, map_location=device)
-        model = CodePredictor(self.NUM_CLASSES_PER_DIGIT).to(device)
+    def infer(self, image_source: Union[str, BytesIO], ckpt_location: str, device:str = 'cpu', image_size: int = 256, verbose = False, beam_width: int = 10, topn: int = 1, capture_live_dir = None):
+        torch_device = torch.device(device if torch.cuda.is_available() or device == 'cpu' else 'cpu')
+        ckpt_path = self.get_model_checkpoint(ckpt_location)
+        ckpt = torch.load(ckpt_path, map_location=torch_device)
+        model = CodePredictor(self.NUM_CLASSES_PER_DIGIT).to(torch_device)
         model.load_state_dict(ckpt['model'])
         tf = self.make_transforms(image_size, aug=False)
         img_base = self.load_image_for_infer(image_source, image_size, margin_ratio=0.3)
         img_base = self.resize_max_side(img_base, image_size)
         img = tf(img_base)
-        probs = self.softmax_heads(model, img, device) # type: ignore
+        probs = self.softmax_heads(model, img, torch_device) # type: ignore
 
         # top-k per digit (optional print)
         if verbose:
@@ -237,15 +265,19 @@ class Trainer:
         resp = []
         for keypair in codes:
             resp.append(keypair[0])
+        
+        if (capture_live_dir is not None and isinstance(image_source, str)):
+            code = codes[0][0]
+            print(code)
+            os.makedirs(capture_live_dir, exist_ok=True)
+            img = self.schema.capture_image(code)            
+            if (img is not None):
+                path = Path(image_source)
+                out_image_path = f"{Path(capture_live_dir)}/{path.stem}.png"
+                overlayed_image = self.place_next_to(img, img_base)
+                overlayed_image.save(out_image_path)
+            
         return (resp, img_base)
-
-        # if (capture_live_dir is not None):
-        #     os.makedirs(capture_live_dir, exist_ok=True)
-        #     img = self.schema.capture_image(code)            if (img is not None):
-        #         path = Path(infer_image)
-        #         out_image_path = f"{Path(capture_live_dir)}/{path.stem}.png"
-        #         overlayed_image = self.place_next_to(img, img_base)
-        #         overlayed_image.save(out_image_path)
 
     def place_next_to(self, base_img: Image.Image, small_img: Image.Image, margin: int = 0) -> Image.Image:
         """

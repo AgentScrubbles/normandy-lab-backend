@@ -8,12 +8,13 @@ from PIL import ImageGrab, ImageOps
 import pyperclip
 import argparse
 
+from schemas.me1_male import ME1_Male_Schema
 from schemas.me3_female import ME3_Female_Schema
 from window_helpers import setup_window
 
 RENDER_WAIT_TIME = 1
 
-config = ME3_Female_Schema()
+config = ME1_Male_Schema()
 
 # --- Character Feature Encoding ---
 # --- Game Automation ---
