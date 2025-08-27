@@ -25,6 +25,7 @@ from base_schema import BaseSchema, get_schema
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me3_female import ME3_Female_Schema
 from schemas.me1_male import ME1_Male_Schema
+from schemas.me3_male import ME3_Male_Schema
 
 CACHE_DIR = os.getenv('CACHE_DIR', '/tmp/models')
 S3_BUCKET = os.getenv('S3_BUCKET')
