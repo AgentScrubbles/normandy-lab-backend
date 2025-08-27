@@ -51,7 +51,7 @@ def upload(schema: str):
 
     # Add custom headers
     response.headers["X-Status-Code"] = "200"
-    response.headers["X-Code"] = res[0]
+    response.headers["X-Code"] = res[0][0]
 
     # Increment prometheus counter
     schema_counter.labels(schema=schema).inc()
