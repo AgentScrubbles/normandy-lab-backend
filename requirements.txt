@@ -12,3 +12,5 @@ flask
 pyautogui
 python-dotenv
 boto3
+flask_cors
+prometheus_client

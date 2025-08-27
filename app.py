@@ -1,4 +1,4 @@
-from flask import Flask, make_response, request, send_file
+from flask import Flask, Response, make_response, request, send_file
 from io import BytesIO
 import json
 from trainer import Trainer
@@ -9,13 +9,21 @@ from base_schema import BaseSchema, all_schemas, get_schema
 from schemas.me3_female import ME3_Female_Schema # type: ignore
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me1_male import ME1_Male_Schema
-
-
+from flask_cors import CORS
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
+
+schema_counter = Counter(
+    "inference_requests_total",
+    "Number of inference requests per schema",
+    ["schema"]
+)
+# --------------------------
 
 def get_schema_checkpoint(schema: str):
     ckpt = os.getenv(f'CKPT_{schema.upper()}')
@@ -44,8 +52,15 @@ def upload(schema: str):
     # Add custom headers
     response.headers["X-Status-Code"] = "200"
     response.headers["X-Code"] = res[0]
+
+    # Increment prometheus counter
+    schema_counter.labels(schema=schema).inc()
     return response
 
+
+@app.route("/metrics")
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
