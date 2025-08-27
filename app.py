@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, expose_headers=["X-Code"])
 
 schema_counter = Counter(
     "inference_requests_total",
