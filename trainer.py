@@ -38,17 +38,21 @@ class Trainer:
 
     def __init__(self, schema: str) -> None:
         self.schema = get_schema(schema)
-        self.NUM_CLASSES_PER_DIGIT: List[int] = [slider.options for slider in self.schema.get_sliders()]
-        self.ALPHABET = list(string.digits + string.ascii_uppercase)
+        # Get all inputs and their class counts
+        self.inputs = self.schema.get_inputs()
+        self.NUM_CLASSES_PER_DIGIT: List[int] = [inp.num_classes() for inp in self.inputs]
 
-        def symbols_for(n: int) -> List[str]:
-            assert 1 <= n <= len(self.ALPHABET), f"n must be in [1,{len(self.ALPHABET)}], got {n}"
-            return self.ALPHABET[:n]
+        # Build per-position symbol maps using InputType.encode()/decode()
+        # This uses the InputType's own symbol generation for flexibility
+        self.POSITION_SYMBOLS: List[List[str]] = []
+        self.CHAR2IDX: List[Dict[str, int]] = []
+        self.IDX2CHAR: List[Dict[int, str]] = []
 
-        # Build per-position symbol maps (char->idx and idx->char)
-        self.POSITION_SYMBOLS: List[List[str]] = [symbols_for(n) for n in self.NUM_CLASSES_PER_DIGIT]
-        self.CHAR2IDX: List[Dict[str, int]] = [{c: i for i, c in enumerate(sym)} for sym in self.POSITION_SYMBOLS]
-        self.IDX2CHAR: List[Dict[int, str]] = [{i: c for i, c in enumerate(sym)} for sym in self.POSITION_SYMBOLS]
+        for inp in self.inputs:
+            symbols = inp.get_symbol_list()
+            self.POSITION_SYMBOLS.append(symbols)
+            self.CHAR2IDX.append({c: i for i, c in enumerate(symbols)})
+            self.IDX2CHAR.append({i: c for i, c in enumerate(symbols)})
 
     def set_seed(self, seed: int = 42):
         random.seed(seed)
@@ -103,7 +107,7 @@ class Trainer:
         model.eval()
         total_loss = 0.0
         n_samples = 0
-        correct_per_digit = [0 for _ in range(len(self.schema.get_sliders()))]
+        correct_per_digit = [0 for _ in range(len(self.inputs))]
         exact_match = 0
 
         for imgs, labels, _codes in loader:
@@ -126,10 +130,9 @@ class Trainer:
         avg_loss = total_loss / n_samples
         per_digit_acc = [c / n_samples for c in correct_per_digit]
         exact_acc = exact_match / n_samples
-        sliders = self.schema.get_sliders()
-        for d_idx, acc in enumerate(per_digit_acc, start=1):
-            slider = sliders[d_idx - 1]
-            writer.add_scalar(f"Accuracy/{slider.name}", acc, epoch)
+        for d_idx, acc in enumerate(per_digit_acc):
+            inp = self.inputs[d_idx]
+            writer.add_scalar(f"Accuracy/{inp.name}", acc, epoch)
         return avg_loss, exact_acc, per_digit_acc
     
     def train(self, args):
@@ -428,17 +431,31 @@ class CodeImageDataset(Dataset):
             # Multiple angles, take only the code
             code = code.split('_')[0]
 
-        if len(code) != len(self.schema.get_sliders()):
-            raise ValueError(f"Code '{code}' length {len(code)} != 37")
+        inputs = self.schema.get_inputs()
+        expected_len = sum(inp.encoding_width for inp in inputs)
+        if len(code) != expected_len:
+            raise ValueError(f"Code '{code}' length {len(code)} != {expected_len}")
+
         label_idxs = []
-        for pos, ch in enumerate(code):
-            ch = ch.upper()
-            if ch not in self.char2idx[pos]:
-                # Take the highest possible value (last index)
+        offset = 0
+        for pos, inp in enumerate(inputs):
+            width = inp.encoding_width
+            symbol = code[offset:offset + width]
+            # For legacy ME codes, uppercase for lookup
+            symbol_upper = symbol.upper()
+
+            if symbol_upper in self.char2idx[pos]:
+                label_idxs.append(self.char2idx[pos][symbol_upper])
+            elif symbol in self.char2idx[pos]:
+                # Extended encoding may use lowercase (case-sensitive)
+                label_idxs.append(self.char2idx[pos][symbol])
+            else:
+                # Fallback: use highest valid index
                 max_idx = len(self.char2idx[pos]) - 1
                 label_idxs.append(max_idx)
-            else:
-                label_idxs.append(self.char2idx[pos][ch])
+
+            offset += width
+
         return torch.tensor(label_idxs, dtype=torch.long)
 
 

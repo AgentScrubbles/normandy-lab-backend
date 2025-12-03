@@ -1,4 +1,5 @@
-from base_schema import BaseSchema, Slider, register_schema
+from typing import List
+from base_schema import BaseSchema, Slider, register_schema, InputType
 import string
 import os
 
@@ -26,7 +27,7 @@ class ME1_Female_Schema(BaseSchema):
     CENTER_FACE = (5475, 2585)
     CAPTURE_BOX = (5035, 2040, 5730, 2925)
 
-    def get_sliders(self) -> list[Slider]:
+    def get_inputs(self) -> List[InputType]:
         return [
             Slider(1, "Facial Structure", 9),
             Slider(2, "Skin Tone", 30),
