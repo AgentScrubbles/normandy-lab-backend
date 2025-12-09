@@ -300,16 +300,17 @@ class BaseSchema(ABC):
         return any(isinstance(inp, (CoordinateGrid, ColorPicker)) for inp in self.get_inputs())
 
     # =========================================================================
-    # Calibration Support
+    # Calibration Support (Keyboard-based navigation)
     # =========================================================================
 
     _calibration: Optional["CalibrationData"] = None
     _calibration_loaded: bool = False
+    _current_menu: Optional[str] = None
+    _current_input_idx: int = 0
 
     def _get_game_slug(self) -> str:
         """Get the game slug for calibration file paths."""
         if self.GAME:
-            # Convert class name to snake_case
             name = self.GAME.__name__
             return re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
         return "unknown"
@@ -322,12 +323,7 @@ class BaseSchema(ABC):
         return self.__class__.__name__.lower()
 
     def load_calibration(self) -> Optional["CalibrationData"]:
-        """
-        Load calibration data for this schema.
-
-        Returns:
-            CalibrationData if file exists, None otherwise
-        """
+        """Load calibration data for this schema."""
         if self._calibration_loaded:
             return self._calibration
 
@@ -338,157 +334,259 @@ class BaseSchema(ABC):
             self._calibration = load_calibration(game_slug, schema_name)
             self._calibration_loaded = True
         except ImportError:
-            # Calibration module not available
             self._calibration_loaded = True
 
         return self._calibration
 
-    def get_calibrated_input(self, inp: InputType) -> InputType:
-        """
-        Return input with calibration coordinates applied.
+    def _press_key(self, key: str, count: int = 1):
+        """Press a key multiple times with calibrated delay."""
+        if _pyautogui is None:
+            return
 
-        If calibration exists for this input, returns a copy with updated
-        screen coordinates. Otherwise returns the original input unchanged.
-
-        Args:
-            inp: The input to calibrate
-
-        Returns:
-            Input with calibrated coordinates (or original if no calibration)
-        """
         cal = self.load_calibration()
-        if not cal or inp.name not in cal.inputs:
-            return inp
+        delay = cal.timing.key_delay_ms / 1000 if cal else 0.05
 
-        input_cal = cal.inputs[inp.name]
+        for _ in range(count):
+            _pyautogui.press(key)
+            time.sleep(delay)
 
-        if isinstance(inp, CoordinateGrid):
-            if hasattr(input_cal.control, 'bounds'):
-                return inp.with_bounds(input_cal.control.bounds)
-        elif isinstance(inp, ColorPicker):
-            if hasattr(input_cal.control, 'wheel_center'):
-                return inp.with_wheel(
-                    input_cal.control.wheel_center,
-                    input_cal.control.wheel_radius
-                )
+    def _press_enter(self):
+        """Press enter with calibrated delay."""
+        if _pyautogui is None:
+            return
 
-        return inp
-
-    def get_activation_click(self, inp: InputType) -> Optional[Tuple[int, int]]:
-        """
-        Get the activation click position for an input.
-
-        The activation click is used to select/highlight an input row
-        before interacting with its control.
-
-        Args:
-            inp: The input to get activation for
-
-        Returns:
-            (x, y) tuple or None if no calibration
-        """
         cal = self.load_calibration()
-        if not cal or inp.name not in cal.inputs:
-            return None
-        return cal.inputs[inp.name].activation_click
+        delay = cal.timing.enter_delay_ms / 1000 if cal else 0.2
 
-    def get_input_menu(self, inp: InputType) -> Optional[str]:
-        """Get the menu key that contains this input."""
+        _pyautogui.press('enter')
+        time.sleep(delay)
+
+    def _press_escape(self):
+        """Press escape with calibrated delay."""
+        if _pyautogui is None:
+            return
+
         cal = self.load_calibration()
-        if not cal or inp.name not in cal.inputs:
-            return None
-        return cal.inputs[inp.name].menu
+        delay = cal.timing.escape_delay_ms / 1000 if cal else 0.2
 
-    _current_menu: Optional[str] = None  # Track current menu for navigation
+        _pyautogui.press('escape')
+        time.sleep(delay)
 
-    def navigate_to_menu(self, menu_key: str, click_back: bool = True) -> bool:
+    def navigate_to_menu(self, menu_key: str) -> bool:
         """
-        Navigate to a menu using calibrated click path.
+        Navigate to a menu using keyboard (UP to top, DOWN to menu, ENTER).
 
         Args:
             menu_key: The menu key to navigate to
-            click_back: If True, click the back button first to return to main menu
 
         Returns:
-            True if navigation was performed, False otherwise
+            True if navigation was performed
         """
         cal = self.load_calibration()
-        if not cal or not cal.navigation:
-            return False
-
-        # Skip if already at target menu
-        if menu_key == self._current_menu:
-            return True
-
-        menu_nav = cal.navigation.menus.get(menu_key)
-        if not menu_nav or not menu_nav.path:
-            self._current_menu = menu_key
+        if not cal or menu_key not in cal.menus:
             return False
 
         if _pyautogui is None:
             return False
 
-        # Click back button first to return to main menu (if we're in a submenu)
-        if click_back and self._current_menu is not None and cal.navigation.back_button:
-            back = cal.navigation.back_button
-            _pyautogui.click(back[0], back[1])
-            time.sleep(cal.navigation.back_wait_ms / 1000)
+        # If we're in a submenu, press ESC to go back to menu list
+        if self._current_menu is not None:
+            self._press_escape()
 
-        # Navigate to target menu
-        for x, y in menu_nav.path:
-            _pyautogui.click(x, y)
-            time.sleep(menu_nav.wait_after_ms / 1000)
+        # Press UP many times to ensure we're at the top
+        self._press_key('up', 20)
+
+        # Press DOWN to reach the target menu
+        down_count = cal.menus[menu_key].down_count
+        self._press_key('down', down_count)
+
+        # Press ENTER to select the menu (this also selects first input)
+        self._press_enter()
 
         self._current_menu = menu_key
+        self._current_input_idx = 0
         return True
 
-    def apply_calibrated_input(self, inp: InputType, value: int, click_delay: float = 0.1):
+    def navigate_to_input(self, inp: InputType) -> bool:
         """
-        Apply a value to an input using calibrated coordinates.
+        Navigate to a specific input using keyboard.
+
+        Args:
+            inp: The input to navigate to
+
+        Returns:
+            True if navigation was performed
+        """
+        cal = self.load_calibration()
+        if not cal or inp.name not in cal.inputs:
+            return False
+
+        input_info = cal.inputs[inp.name]
+
+        # Navigate to the menu if needed
+        if self._current_menu != input_info.menu:
+            self.navigate_to_menu(input_info.menu)
+
+        # Calculate how many DOWNs needed from current position
+        target_idx = input_info.down_count
+        if target_idx > self._current_input_idx:
+            self._press_key('down', target_idx - self._current_input_idx)
+        elif target_idx < self._current_input_idx:
+            self._press_key('up', self._current_input_idx - target_idx)
+
+        self._current_input_idx = target_idx
+        return True
+
+    def apply_slider_value(self, inp: Slider, value: int):
+        """
+        Apply a slider value using keyboard (LEFT to reset, RIGHT to value).
+
+        Args:
+            inp: The slider input
+            value: The value to set (0-indexed)
+        """
+        if _pyautogui is None:
+            return
+
+        cal = self.load_calibration()
+        reset_delay = cal.timing.slider_reset_delay_ms / 1000 if cal else 0.1
+
+        # Press LEFT many times to reset to 0
+        self._press_key('left', inp.num_classes())
+        time.sleep(reset_delay)
+
+        # Press RIGHT to reach target value
+        self._press_key('right', value)
+
+    def apply_grid_value(self, inp: CoordinateGrid, value: int):
+        """
+        Apply a coordinate grid value using mouse click.
+
+        Args:
+            inp: The grid input
+            value: The value to set (0-indexed)
+        """
+        cal = self.load_calibration()
+        if not cal or not cal.grid_bounds:
+            return
+
+        if _pyautogui is None:
+            return
+
+        x, y = cal.grid_bounds.get_click_position(value, inp.x_divisions, inp.y_divisions)
+        _pyautogui.click(x, y)
+        time.sleep(0.1)
+
+    def apply_color_value(self, inp: ColorPicker, value: int):
+        """
+        Apply a color picker value using mouse click on the hue ring.
+
+        Args:
+            inp: The color picker input
+            value: The hue value to set (0-indexed)
+        """
+        cal = self.load_calibration()
+        if not cal or not cal.color_wheel:
+            return
+
+        if _pyautogui is None:
+            return
+
+        # Click on the hue ring at the calculated angle
+        x, y = cal.color_wheel.get_click_position(value, inp.num_classes())
+        _pyautogui.click(x, y)
+        time.sleep(0.1)
+
+    def apply_calibrated_input(self, inp: InputType, value: int):
+        """
+        Apply a value to an input using keyboard navigation.
 
         This method:
-        1. Clicks the activation position (if calibrated)
-        2. Calculates and clicks the control position
+        1. Navigates to the input (keyboard)
+        2. Applies the value (keyboard for sliders, mouse for grids/colors)
 
         Args:
             inp: The input to apply
             value: The value index to apply
-            click_delay: Delay after clicking
         """
+        # Navigate to the input
+        self.navigate_to_input(inp)
+
+        # Apply value based on type
+        if isinstance(inp, Slider):
+            self.apply_slider_value(inp, value)
+        elif isinstance(inp, CoordinateGrid):
+            self.apply_grid_value(inp, value)
+        elif isinstance(inp, ColorPicker):
+            self.apply_color_value(inp, value)
+
+    def apply_all_calibrated_inputs(self, code: str):
+        """
+        Apply all input values from a code string using keyboard navigation.
+
+        Optimized to process inputs menu by menu to minimize navigation.
+
+        Args:
+            code: The encoded character code string
+        """
+        cal = self.load_calibration()
+        if not cal:
+            return
+
+        decoded = self.decode_code(code)
+
+        # Group by menu for efficient navigation
+        by_menu: Dict[str, List[Tuple[InputType, int]]] = {}
+        for inp, value in decoded:
+            if inp.name in cal.inputs:
+                menu = cal.inputs[inp.name].menu
+                if menu not in by_menu:
+                    by_menu[menu] = []
+                by_menu[menu].append((inp, value))
+
+        # Process each menu
+        for menu_key in cal.menus.keys():
+            if menu_key not in by_menu:
+                continue
+
+            # Navigate to menu
+            self.navigate_to_menu(menu_key)
+
+            # Sort inputs by down_count for efficient traversal
+            menu_inputs = sorted(by_menu[menu_key], key=lambda x: cal.inputs[x[0].name].down_count)
+
+            for inp, value in menu_inputs:
+                self.apply_calibrated_input(inp, value)
+
+    def reset_view_for_capture(self):
+        """
+        Reset the camera view after applying inputs.
+
+        In DAI, the character zooms out during editing. This method:
+        1. Escapes back to main menu
+        2. Moves mouse to the character
+        3. Scrolls up to zoom in
+
+        Should be called before capturing a screenshot.
+        """
+        cal = self.load_calibration()
+        if not cal or not cal.capture or not cal.capture.reset_view_position:
+            return
+
         if _pyautogui is None:
             return
 
-        # Get calibrated version of input
-        calibrated_inp = self.get_calibrated_input(inp)
+        # Escape back to main menu
+        self._press_escape()
 
-        # Click activation position if available
-        activation = self.get_activation_click(inp)
-        if activation:
-            _pyautogui.click(activation[0], activation[1])
-            time.sleep(click_delay)
+        # Move to reset position and scroll up to zoom in
+        x, y = cal.capture.reset_view_position
+        _pyautogui.moveTo(x, y)
+        time.sleep(0.2)
 
-        # Apply the value based on input type
-        if isinstance(calibrated_inp, (CoordinateGrid, ColorPicker)):
-            x, y = calibrated_inp.get_click_coordinates(value)
-            _pyautogui.click(x, y)
-            time.sleep(click_delay)
-        elif isinstance(calibrated_inp, Slider):
-            # For calibrated sliders, use track interpolation
-            self._apply_calibrated_slider(inp, value, click_delay)
+        # Scroll up to zoom in
+        for _ in range(cal.capture.reset_scroll_count):
+            _pyautogui.scroll(1)  # Positive = scroll up = zoom in
+            time.sleep(0.05)
 
-    def _apply_calibrated_slider(self, inp: Slider, value: int, click_delay: float):
-        """Apply a slider value using calibrated track endpoints."""
-        cal = self.load_calibration()
-        if not cal or inp.name not in cal.inputs:
-            return
-
-        input_cal = cal.inputs[inp.name]
-        if not hasattr(input_cal.control, 'track_start'):
-            return
-
-        # Use SliderControl's get_click_position method
-        x, y = input_cal.control.get_click_position(value, inp.num_classes())
-
-        if _pyautogui is not None:
-            _pyautogui.click(x, y)
-            time.sleep(click_delay)
+        time.sleep(0.3)  # Wait for view to settle

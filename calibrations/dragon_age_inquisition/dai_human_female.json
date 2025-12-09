@@ -1,17 +1,23 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "schema_name": "dai_human_female",
   "game": "dragon_age_inquisition",
-  "created_at": "2025-12-09T09:55:00.718911",
-  "updated_at": "2025-12-09T10:41:49.089394",
+  "created_at": "2025-12-09T10:54:38.293980",
+  "updated_at": "2025-12-09T11:27:50.068270",
+  "timing": {
+    "key_delay_ms": 50,
+    "enter_delay_ms": 200,
+    "escape_delay_ms": 200,
+    "slider_reset_delay_ms": 100
+  },
   "resolution": [
     1280,
     720
   ],
   "window": {
     "reference_position": [
-      1996,
-      2269
+      2004,
+      2286
     ],
     "expected_size": [
       1280,
@@ -20,123 +26,272 @@
   },
   "capture": {
     "box": [
-      2725,
-      2320,
-      3114,
-      2773
-    ]
-  },
-  "navigation": {
-    "menus": {
-      "GENERAL": {
-        "path": [
-          [
-            2335,
-            2546
-          ]
-        ],
-        "wait_after_ms": 300
-      },
-      "HEAD_AND_EARS": {
-        "path": [
-          [
-            2330,
-            2650
-          ]
-        ],
-        "wait_after_ms": 300
-      },
-      "EYES": {
-        "path": [
-          [
-            2328,
-            2651
-          ]
-        ],
-        "wait_after_ms": 300
-      },
-      "NOSE": {
-        "path": [
-          [
-            2337,
-            2650
-          ]
-        ],
-        "wait_after_ms": 300
-      },
-      "MOUTH_AND_JAW": {
-        "path": [
-          [
-            2337,
-            2648
-          ]
-        ],
-        "wait_after_ms": 300
-      },
-      "MAKEUP": {
-        "path": [
-          [
-            2292,
-            2699
-          ]
-        ],
-        "wait_after_ms": 300
-      }
-    },
-    "back_button": [
-      2136,
-      2892
+      2748,
+      2347,
+      3127,
+      2807
     ],
-    "back_wait_ms": 300
+    "reset_view_position": [
+      2928,
+      2575
+    ],
+    "reset_scroll_count": 6
+  },
+  "menus": {
+    "GENERAL": {
+      "down_count": 0
+    },
+    "HEAD_AND_EARS": {
+      "down_count": 1
+    },
+    "EYES": {
+      "down_count": 2
+    },
+    "NOSE": {
+      "down_count": 3
+    },
+    "MOUTH_AND_JAW": {
+      "down_count": 4
+    },
+    "MAKEUP": {
+      "down_count": 5
+    }
   },
   "inputs": {
     "Face Shape": {
-      "type": "slider",
-      "activation_click": [
-        2298,
-        2600
-      ],
-      "control": {
-        "track_start": [
-          2399,
-          2600
-        ],
-        "track_end": [
-          2399,
-          2600
-        ]
-      },
+      "down_count": 0,
       "menu": "GENERAL"
     },
     "Skin Tone": {
-      "type": "slider",
-      "activation_click": [
-        2399,
-        2600
-      ],
-      "control": {
-        "track_start": [
-          2399,
-          2600
-        ],
-        "track_end": [
-          2399,
-          2600
-        ]
-      },
+      "down_count": 1,
       "menu": "GENERAL"
+    },
+    "Complexion": {
+      "down_count": 2,
+      "menu": "GENERAL"
+    },
+    "Eye Color": {
+      "down_count": 3,
+      "menu": "GENERAL"
+    },
+    "Hair": {
+      "down_count": 4,
+      "menu": "GENERAL"
+    },
+    "Hair Color": {
+      "down_count": 5,
+      "menu": "GENERAL"
+    },
+    "Ear Size": {
+      "down_count": 0,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Ear Position": {
+      "down_count": 1,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Earlobe Size": {
+      "down_count": 2,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Cheekbones": {
+      "down_count": 3,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Cheek Shape": {
+      "down_count": 4,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Brow Size": {
+      "down_count": 5,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Forehead": {
+      "down_count": 6,
+      "menu": "HEAD_AND_EARS"
+    },
+    "Eye Shape": {
+      "down_count": 0,
+      "menu": "EYES"
+    },
+    "Eye Size": {
+      "down_count": 1,
+      "menu": "EYES"
+    },
+    "Eye Position": {
+      "down_count": 2,
+      "menu": "EYES"
+    },
+    "Eye Rotation and Spacing": {
+      "down_count": 3,
+      "menu": "EYES"
+    },
+    "Eyebrow Style": {
+      "down_count": 4,
+      "menu": "EYES"
+    },
+    "Eyebrow Position": {
+      "down_count": 5,
+      "menu": "EYES"
+    },
+    "Eyelash Style": {
+      "down_count": 6,
+      "menu": "EYES"
+    },
+    "Outer Iris Color": {
+      "down_count": 7,
+      "menu": "EYES"
+    },
+    "Inner Iris Color": {
+      "down_count": 8,
+      "menu": "EYES"
+    },
+    "Nose Shape": {
+      "down_count": 0,
+      "menu": "NOSE"
+    },
+    "Nose Size": {
+      "down_count": 1,
+      "menu": "NOSE"
+    },
+    "Nose Position": {
+      "down_count": 2,
+      "menu": "NOSE"
+    },
+    "Nose Bridge Size": {
+      "down_count": 3,
+      "menu": "NOSE"
+    },
+    "Bridge Position": {
+      "down_count": 4,
+      "menu": "NOSE"
+    },
+    "Nose Tip Size": {
+      "down_count": 5,
+      "menu": "NOSE"
+    },
+    "Nose Tip Position": {
+      "down_count": 6,
+      "menu": "NOSE"
+    },
+    "Nostril Size": {
+      "down_count": 7,
+      "menu": "NOSE"
+    },
+    "Broken Nose": {
+      "down_count": 8,
+      "menu": "NOSE"
+    },
+    "Mouth Shape": {
+      "down_count": 0,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Mouth Width": {
+      "down_count": 1,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Mouth Position": {
+      "down_count": 2,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Lip Thickness": {
+      "down_count": 3,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Jawline": {
+      "down_count": 4,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Jaw Size": {
+      "down_count": 5,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Jowls": {
+      "down_count": 6,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Chin Size": {
+      "down_count": 7,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Chin Shape": {
+      "down_count": 8,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Double Chin": {
+      "down_count": 9,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Adam's Apple": {
+      "down_count": 10,
+      "menu": "MOUTH_AND_JAW"
+    },
+    "Eye Shadow Color": {
+      "down_count": 0,
+      "menu": "MAKEUP"
+    },
+    "Eye Shadow Intensity": {
+      "down_count": 1,
+      "menu": "MAKEUP"
+    },
+    "Under-Eye Color": {
+      "down_count": 2,
+      "menu": "MAKEUP"
+    },
+    "Under-Brow Color": {
+      "down_count": 3,
+      "menu": "MAKEUP"
+    },
+    "Under-Brow Intensity": {
+      "down_count": 4,
+      "menu": "MAKEUP"
+    },
+    "Eyelash Color": {
+      "down_count": 5,
+      "menu": "MAKEUP"
+    },
+    "Eyeliner Color": {
+      "down_count": 6,
+      "menu": "MAKEUP"
+    },
+    "Eyeliner Intensity": {
+      "down_count": 7,
+      "menu": "MAKEUP"
+    },
+    "Blush Color": {
+      "down_count": 8,
+      "menu": "MAKEUP"
+    },
+    "Blush Intensity": {
+      "down_count": 9,
+      "menu": "MAKEUP"
+    },
+    "Lip Color": {
+      "down_count": 10,
+      "menu": "MAKEUP"
+    },
+    "Lip Color Intensity": {
+      "down_count": 11,
+      "menu": "MAKEUP"
+    },
+    "Lip Liner Color": {
+      "down_count": 12,
+      "menu": "MAKEUP"
+    },
+    "Lip Shine": {
+      "down_count": 13,
+      "menu": "MAKEUP"
     }
   },
-  "calibration_log": [
-    {
-      "input": "Face Shape",
-      "timestamp": "2025-12-09T10:41:47.949139",
-      "method": "interactive"
-    },
-    {
-      "input": "Skin Tone",
-      "timestamp": "2025-12-09T10:41:49.089314",
-      "method": "interactive"
-    }
-  ]
+  "grid_bounds": {
+    "x1": 2696,
+    "y1": 2339,
+    "x2": 3156,
+    "y2": 2800
+  },
+  "color_wheel": {
+    "center_x": 2479,
+    "center_y": 2605,
+    "ring_radius": 151
+  }
 }

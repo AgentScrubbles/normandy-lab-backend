@@ -39,10 +39,9 @@ DEFAULT_WHEEL_RADIUS = 40               # Placeholder - needs calibration
 # Grid resolution: 10x10 = 100 options per coordinate input
 GRID_DIVISIONS = 10
 
-# Color palette: 12 hues × 3 saturations = 36 colors
-COLOR_PALETTE_SIZE = 36
-HUE_DIVISIONS = 12
-SATURATION_LEVELS = 3
+# Color palette: Just the hue ring (no saturation variation)
+# 12 hues around the color wheel (30-degree increments)
+NUM_HUES = 12
 
 
 @register_schema("dai_human_female")
@@ -123,9 +122,9 @@ class DAI_Human_Female_Schema(BaseSchema):
         pos += 1
         inputs.append(Slider(pos, "Eyelash Style", 14))
         pos += 1
-        inputs.append(ColorPicker(pos, "Outer Iris Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS, biased=True))
+        inputs.append(ColorPicker(pos, "Outer Iris Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, biased=True))
         pos += 1
-        inputs.append(ColorPicker(pos, "Inner Iris Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Inner Iris Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
 
         # =================================================================
         # NOSE
@@ -179,31 +178,31 @@ class DAI_Human_Female_Schema(BaseSchema):
         # MAKEUP
         # =================================================================
         pos += 1
-        inputs.append(ColorPicker(pos, "Eye Shadow Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Eye Shadow Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Eye Shadow Intensity", 11))
         pos += 1
-        inputs.append(ColorPicker(pos, "Under-Eye Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Under-Eye Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
-        inputs.append(ColorPicker(pos, "Under-Brow Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Under-Brow Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Under-Brow Intensity", 11))
         pos += 1
-        inputs.append(ColorPicker(pos, "Eyelash Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Eyelash Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
-        inputs.append(ColorPicker(pos, "Eyeliner Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Eyeliner Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Eyeliner Intensity", 11))
         pos += 1
-        inputs.append(ColorPicker(pos, "Blush Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Blush Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Blush Intensity", 11))
         pos += 1
-        inputs.append(ColorPicker(pos, "Lip Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Lip Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Lip Color Intensity", 11))
         pos += 1
-        inputs.append(ColorPicker(pos, "Lip Liner Color", COLOR_PALETTE_SIZE, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS, HUE_DIVISIONS, SATURATION_LEVELS))
+        inputs.append(ColorPicker(pos, "Lip Liner Color", NUM_HUES, DEFAULT_WHEEL_CENTER, DEFAULT_WHEEL_RADIUS))
         pos += 1
         inputs.append(Slider(pos, "Lip Shine", 11))
 
@@ -228,90 +227,41 @@ class DAI_Human_Female_Schema(BaseSchema):
         try:
             if ImageGrab is None:
                 raise RuntimeError("ImageGrab not available in this environment")
+
+            # Apply all inputs
             self.send_code_to_game(code)
-            shot = ImageGrab.grab(bbox=self.CAPTURE_BOX)
+
+            # Reset view (zoom in) before capture
+            self.reset_view_for_capture()
+
+            # Use calibrated capture box if available
+            cal = self.load_calibration()
+            if cal and cal.capture:
+                bbox = cal.capture.box
+            else:
+                bbox = self.CAPTURE_BOX
+
+            shot = ImageGrab.grab(bbox=bbox)
             return shot
         except Exception:
             return None
 
     # =========================================================================
-    # DAI-Specific Methods
+    # DAI-Specific Methods (Keyboard-based navigation)
     # =========================================================================
-
-    def apply_input_value(self, inp: InputType, value: int, click_delay: float = 0.15):
-        """
-        Apply a value to an input in the DAI UI.
-
-        For DAI, ALL inputs require clicking (sliders, grids, and color pickers).
-        This uses calibration data if available.
-
-        Args:
-            inp: The input type to apply
-            value: The value index (0-indexed) to apply
-            click_delay: Delay in seconds after clicking
-        """
-        if pyautogui is None:
-            return
-
-        # Use calibrated coordinates if available
-        self.apply_calibrated_input(inp, value, click_delay)
-
-    def apply_all_inputs_with_navigation(self, code: str, click_delay: float = 0.15):
-        """
-        Apply all inputs with menu navigation.
-
-        Groups inputs by menu and navigates efficiently (once per category).
-        This is more efficient than apply_all_inputs() which doesn't batch.
-
-        Args:
-            code: The character code to apply
-            click_delay: Delay after each click
-        """
-        import time
-        decoded = self.decode_code(code)
-        cal = self.load_calibration()
-
-        if not cal:
-            # Fall back to basic application without navigation
-            self.apply_all_inputs(code, click_delay)
-            return
-
-        # Group inputs by menu
-        by_menu: dict[str, list[tuple[InputType, int]]] = {}
-        for inp, value in decoded:
-            menu = cal.inputs.get(inp.name)
-            if menu:
-                menu_key = menu.menu
-            else:
-                menu_key = "UNKNOWN"
-
-            if menu_key not in by_menu:
-                by_menu[menu_key] = []
-            by_menu[menu_key].append((inp, value))
-
-        # Process each menu group
-        current_menu = None
-        for menu_key, inputs in by_menu.items():
-            # Navigate to menu if different from current
-            if menu_key != current_menu and menu_key != "UNKNOWN":
-                self.navigate_to_menu(menu_key)
-                current_menu = menu_key
-                time.sleep(0.3)  # Wait for menu transition
-
-            # Apply all inputs in this menu
-            for inp, value in inputs:
-                self.apply_input_value(inp, value, click_delay)
 
     def send_code_to_game(self, code: str):
         """
-        For DAI, we don't paste codes - we apply inputs directly.
+        For DAI, we don't paste codes - we apply inputs using keyboard navigation.
 
-        Uses navigation-aware application if calibration is available.
+        Uses calibration data to navigate menus and inputs via keyboard,
+        with mouse clicks only for coordinate grids and color pickers.
         """
         self.setup_window()
 
         cal = self.load_calibration()
-        if cal and cal.navigation:
-            self.apply_all_inputs_with_navigation(code)
+        if cal:
+            # Use keyboard-based navigation
+            self.apply_all_calibrated_inputs(code)
         else:
-            self.apply_all_inputs(code)
+            print("Warning: No calibration data. Run calibrator first.")
