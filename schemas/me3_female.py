@@ -1,5 +1,5 @@
 from typing import List
-from base_schema import BaseSchema, Slider, register_schema, InputType
+from base_schema import BaseSchema, Slider, register_schema, InputType, MassEffect3
 import string
 import os
 
@@ -12,8 +12,10 @@ from window_helpers import add_to_clipboard, setup_window
 @register_schema("me3_female")
 class ME3_Female_Schema(BaseSchema):
 
-    # --- Configuration ---
-    WINDOW_KEYWORD = "Mass Effect 3"  # Update this
+    # --- Game Configuration ---
+    GAME = MassEffect3
+
+    # --- Schema Configuration ---
     CODE_FILE = 'dataset/me3/female_codes.txt'
     RENDER_WAIT_TIME = 1
     ANGLES = 5
@@ -85,11 +87,11 @@ class ME3_Female_Schema(BaseSchema):
         return self.CODE_FILE
     
     def setup_window(self):
-        return setup_window(self.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
-    
+        return setup_window(self.GAME.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
+
     def send_code_to_game(self, code):
         add_to_clipboard(code)
-        setup_window(self.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
+        setup_window(self.GAME.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
         self.paste_code()
 
     def paste_code(self):

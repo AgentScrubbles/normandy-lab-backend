@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "schema_name": "dai_human_female",
+  "game": "dragon_age_inquisition",
+  "created_at": "2025-12-09T09:55:00.718911",
+  "updated_at": "2025-12-09T10:41:49.089394",
+  "resolution": [
+    1280,
+    720
+  ],
+  "window": {
+    "reference_position": [
+      1996,
+      2269
+    ],
+    "expected_size": [
+      1280,
+      720
+    ]
+  },
+  "capture": {
+    "box": [
+      2725,
+      2320,
+      3114,
+      2773
+    ]
+  },
+  "navigation": {
+    "menus": {
+      "GENERAL": {
+        "path": [
+          [
+            2335,
+            2546
+          ]
+        ],
+        "wait_after_ms": 300
+      },
+      "HEAD_AND_EARS": {
+        "path": [
+          [
+            2330,
+            2650
+          ]
+        ],
+        "wait_after_ms": 300
+      },
+      "EYES": {
+        "path": [
+          [
+            2328,
+            2651
+          ]
+        ],
+        "wait_after_ms": 300
+      },
+      "NOSE": {
+        "path": [
+          [
+            2337,
+            2650
+          ]
+        ],
+        "wait_after_ms": 300
+      },
+      "MOUTH_AND_JAW": {
+        "path": [
+          [
+            2337,
+            2648
+          ]
+        ],
+        "wait_after_ms": 300
+      },
+      "MAKEUP": {
+        "path": [
+          [
+            2292,
+            2699
+          ]
+        ],
+        "wait_after_ms": 300
+      }
+    },
+    "back_button": [
+      2136,
+      2892
+    ],
+    "back_wait_ms": 300
+  },
+  "inputs": {
+    "Face Shape": {
+      "type": "slider",
+      "activation_click": [
+        2298,
+        2600
+      ],
+      "control": {
+        "track_start": [
+          2399,
+          2600
+        ],
+        "track_end": [
+          2399,
+          2600
+        ]
+      },
+      "menu": "GENERAL"
+    },
+    "Skin Tone": {
+      "type": "slider",
+      "activation_click": [
+        2399,
+        2600
+      ],
+      "control": {
+        "track_start": [
+          2399,
+          2600
+        ],
+        "track_end": [
+          2399,
+          2600
+        ]
+      },
+      "menu": "GENERAL"
+    }
+  },
+  "calibration_log": [
+    {
+      "input": "Face Shape",
+      "timestamp": "2025-12-09T10:41:47.949139",
+      "method": "interactive"
+    },
+    {
+      "input": "Skin Tone",
+      "timestamp": "2025-12-09T10:41:49.089314",
+      "method": "interactive"
+    }
+  ]
+}

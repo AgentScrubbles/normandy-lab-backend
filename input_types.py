@@ -280,6 +280,22 @@ class CoordinateGrid:
         """Return the list of valid symbols for this input."""
         return extended_symbol_list(self.num_classes())
 
+    def with_bounds(self, bounds: Tuple[int, int, int, int]) -> "CoordinateGrid":
+        """Return a copy with updated grid bounds from calibration."""
+        return CoordinateGrid(
+            position=self.position,
+            name=self.name,
+            x_divisions=self.x_divisions,
+            y_divisions=self.y_divisions,
+            grid_bounds=bounds,
+            biased=self.biased,
+        )
+
+    def update_bounds(self, bounds: Tuple[int, int, int, int]) -> None:
+        """Update grid bounds in place from calibration data."""
+        # Note: dataclass is not frozen, so we can mutate
+        object.__setattr__(self, 'grid_bounds', bounds)
+
 
 @dataclass
 class ColorPicker:
@@ -348,6 +364,25 @@ class ColorPicker:
     def get_symbol_list(self) -> List[str]:
         """Return the list of valid symbols for this input."""
         return extended_symbol_list(self.num_classes())
+
+    def with_wheel(self, center: Tuple[int, int], radius: int) -> "ColorPicker":
+        """Return a copy with updated wheel geometry from calibration."""
+        return ColorPicker(
+            position=self.position,
+            name=self.name,
+            palette_size=self.palette_size,
+            wheel_center=center,
+            wheel_radius=radius,
+            hue_divisions=self.hue_divisions,
+            saturation_levels=self.saturation_levels,
+            lightness_levels=self.lightness_levels,
+            biased=self.biased,
+        )
+
+    def update_wheel(self, center: Tuple[int, int], radius: int) -> None:
+        """Update wheel geometry in place from calibration data."""
+        object.__setattr__(self, 'wheel_center', center)
+        object.__setattr__(self, 'wheel_radius', radius)
 
 
 # Type alias for any input type
