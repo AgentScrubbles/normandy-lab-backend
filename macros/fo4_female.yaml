@@ -1,0 +1,62 @@
+version: "1.0"
+game: fallout_4
+schema: fo4_female
+
+navigation:
+  mode: preset_file
+
+preset:
+  format: looksmenu_json
+  output_dir: "{FO4_PRESETS_DIR}"
+  filename: "cc_{code}.json"
+
+inputs:
+  - name: Hair Style
+    type: slider
+    options: 20
+    biased: true
+  - name: Hair Color
+    type: slider
+    options: 10
+    biased: true
+  - name: Eye Color
+    type: slider
+    options: 10
+    biased: true
+  - name: Skin Tone
+    type: slider
+    options: 10
+    biased: true
+  - name: Morph Region 0
+    type: slider
+    options: 10
+  - name: Morph Region 1
+    type: slider
+    options: 10
+  - name: Morph Region 2
+    type: slider
+    options: 10
+  - name: Morph Region 3
+    type: slider
+    options: 10
+  - name: Morph Region 4
+    type: slider
+    options: 10
+  - name: Morph Region 5
+    type: slider
+    options: 10
+  - name: Morph Region 6
+    type: slider
+    options: 10
+  - name: Morph Region 7
+    type: slider
+    options: 10
+  - name: Weight Thin
+    type: slider
+    options: 10
+  - name: Weight Muscular
+    type: slider
+    options: 10
+  - name: Weight Large
+    type: slider
+    options: 10

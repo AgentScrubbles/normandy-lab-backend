@@ -85,10 +85,15 @@ class Trainer:
         
     def get_model_checkpoint(self, key: str) -> str:
         """
-        Ensures the checkpoint file is available locally. 
-        Downloads from S3 if not already cached.
+        Ensures the checkpoint file is available locally.
+        If key is a local file path, uses it directly.
+        Otherwise downloads from S3 if not already cached.
         Returns the local path.
         """
+        if os.path.exists(key):
+            print(f"Using local checkpoint at {key}")
+            return key
+
         os.makedirs(CACHE_DIR, exist_ok=True)
         local_path = os.path.join(CACHE_DIR, os.path.basename(key))
 
@@ -426,6 +431,11 @@ class CodeImageDataset(Dataset):
         return len(self.files)
 
     def _code_to_label(self, code: str) -> torch.Tensor:
+
+        # Try schema-specific filename parsing first (e.g., underscore-separated ints)
+        parsed = self.schema.parse_filename(code)
+        if parsed is not None:
+            return torch.tensor(parsed, dtype=torch.long)
 
         if ('_' in code):
             # Multiple angles, take only the code

@@ -9,6 +9,7 @@ from base_schema import BaseSchema, all_schemas, get_schema
 from schemas.me3_female import ME3_Female_Schema # type: ignore
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me1_male import ME1_Male_Schema
+from schemas.cp2077_female import CP2077_Female_Schema
 from flask_cors import CORS
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 from dotenv import load_dotenv

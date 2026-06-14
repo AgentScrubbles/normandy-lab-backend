@@ -11,7 +11,7 @@ import warnings
 from input_types import InputType, Slider, CoordinateGrid, ColorPicker, AnyInputType
 
 # Import Game hierarchy
-from game import Game, AutomationMode, MassEffect1, MassEffect3, DragonAgeInquisition
+from game import Game, AutomationMode, MassEffect1, MassEffect3, DragonAgeInquisition, Fallout4, Cyberpunk2077
 
 # Calibration imports (lazy loaded to avoid circular imports)
 if TYPE_CHECKING:
@@ -23,6 +23,9 @@ if os.getenv("APP_MODE") != "docker":
     try:
         import pyautogui
         _pyautogui = pyautogui
+        # Disable failsafe (moving mouse to corner aborts) and reduce default pause
+        _pyautogui.FAILSAFE = False
+        _pyautogui.PAUSE = 0.01  # Minimal pause between pyautogui calls
     except ImportError:
         pass
 
@@ -33,7 +36,7 @@ __all__ = [
     # Input types
     'Slider', 'InputType', 'CoordinateGrid', 'ColorPicker', 'AnyInputType',
     # Game classes
-    'Game', 'AutomationMode', 'MassEffect1', 'MassEffect3', 'DragonAgeInquisition',
+    'Game', 'AutomationMode', 'MassEffect1', 'MassEffect3', 'DragonAgeInquisition', 'Fallout4',
 ]
 
 _schema_registry: dict[str, type["BaseSchema"]] = {}
@@ -183,6 +186,17 @@ class BaseSchema(ABC):
             )
             return [str(i) for i in range(1, 10)] + list(string.ascii_uppercase)
 
+    def parse_filename(self, stem: str) -> Optional[List[int]]:
+        """
+        Parse a filename stem into label indices.
+
+        Override in subclasses that use non-standard filename encoding
+        (e.g., underscore-separated integers instead of concatenated chars).
+
+        Returns None to use the default character-based decoding.
+        """
+        return None
+
     def decode_code(self, code: str) -> List[Tuple[InputType, int]]:
         """
         Decode a code string into a list of (input, value) pairs.
@@ -291,6 +305,13 @@ class BaseSchema(ABC):
         return False
 
     @property
+    def uses_preset_file(self) -> bool:
+        """Whether this schema writes preset files (FO4-style)."""
+        if self.GAME is not None:
+            return self.GAME.uses_preset_file()
+        return False
+
+    @property
     def has_direct_ui_inputs(self) -> bool:
         """
         Whether this schema has any inputs requiring direct UI clicks.
@@ -344,21 +365,26 @@ class BaseSchema(ABC):
             return
 
         cal = self.load_calibration()
+        # Use longer delay to ensure game registers each keypress
         delay = cal.timing.key_delay_ms / 1000 if cal else 0.05
+        delay = max(delay, 0.1)  # Minimum 100ms between keypresses
 
         for _ in range(count):
             _pyautogui.press(key)
             time.sleep(delay)
 
     def _press_enter(self):
-        """Press enter with calibrated delay."""
+        """Press enter/select with calibrated delay. Uses Space for DAI."""
         if _pyautogui is None:
             return
 
         cal = self.load_calibration()
         delay = cal.timing.enter_delay_ms / 1000 if cal else 0.2
+        delay = max(delay, 0.3)  # Minimum 300ms after selection
 
-        _pyautogui.press('enter')
+        # DAI uses Space for selection, not Enter
+        print("    [SPACE]", flush=True)
+        _pyautogui.press('space')
         time.sleep(delay)
 
     def _press_escape(self):
@@ -368,7 +394,9 @@ class BaseSchema(ABC):
 
         cal = self.load_calibration()
         delay = cal.timing.escape_delay_ms / 1000 if cal else 0.2
+        delay = max(delay, 0.3)  # Minimum 300ms after escape
 
+        print("    [ESC]", flush=True)
         _pyautogui.press('escape')
         time.sleep(delay)
 
@@ -389,18 +417,38 @@ class BaseSchema(ABC):
         if _pyautogui is None:
             return False
 
+        print(f"  Navigating to menu: {menu_key}", flush=True)
+
         # If we're in a submenu, press ESC to go back to menu list
         if self._current_menu is not None:
             self._press_escape()
 
         # Press UP many times to ensure we're at the top
         self._press_key('up', 20)
+        time.sleep(0.3)
 
-        # Press DOWN to reach the target menu
+        # Always go down one first to force selection, then navigate to target
+        # This ensures the menu system is "active" and not just visually highlighted
         down_count = cal.menus[menu_key].down_count
-        self._press_key('down', down_count)
+        print(f"    DOWN x1 (force activate)", flush=True)
+        self._press_key('down', 1)
+        time.sleep(0.3)
 
-        # Press ENTER to select the menu (this also selects first input)
+        if down_count == 0:
+            # Target is first item, go back up
+            print(f"    UP x1 (back to target)", flush=True)
+            self._press_key('up', 1)
+            time.sleep(0.3)
+        elif down_count > 1:
+            # Target is further down, continue down
+            print(f"    DOWN x{down_count - 1} (to target)", flush=True)
+            self._press_key('down', down_count - 1)
+            time.sleep(0.3)
+        # If down_count == 1, we're already there
+        else:
+            time.sleep(0.3)
+
+        # Press SPACE to select the menu (this also selects first input)
         self._press_enter()
 
         self._current_menu = menu_key

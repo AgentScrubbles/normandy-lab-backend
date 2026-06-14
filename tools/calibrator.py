@@ -63,37 +63,31 @@ from tools.calibration_ui import MouseCapture, CaptureAborted, continuous_positi
 from calibrations import load_calibration, save_calibration, get_calibration_path
 
 
-# Category definitions for DAI (menu_name -> list of input names in order)
-DAI_CATEGORIES = {
-    "GENERAL": ["Face Shape", "Skin Tone", "Complexion", "Eye Color", "Hair", "Hair Color"],
-    "HEAD_AND_EARS": ["Ear Size", "Ear Position", "Earlobe Size", "Cheekbones",
-                      "Cheek Shape", "Brow Size", "Forehead"],
-    "EYES": ["Eye Shape", "Eye Size", "Eye Position", "Eye Rotation and Spacing",
-             "Eyebrow Style", "Eyebrow Position", "Eyelash Style",
-             "Outer Iris Color", "Inner Iris Color"],
-    "NOSE": ["Nose Shape", "Nose Size", "Nose Position", "Nose Bridge Size",
-             "Bridge Position", "Nose Tip Size", "Nose Tip Position",
-             "Nostril Size", "Broken Nose"],
-    "MOUTH_AND_JAW": ["Mouth Shape", "Mouth Width", "Mouth Position", "Lip Thickness",
-                      "Jawline", "Jaw Size", "Jowls", "Chin Size", "Chin Shape",
-                      "Double Chin", "Adam's Apple"],
-    "MAKEUP": ["Eye Shadow Color", "Eye Shadow Intensity", "Under-Eye Color",
-               "Under-Brow Color", "Under-Brow Intensity", "Eyelash Color",
-               "Eyeliner Color", "Eyeliner Intensity", "Blush Color",
-               "Blush Intensity", "Lip Color", "Lip Color Intensity",
-               "Lip Liner Color", "Lip Shine"],
-}
+def _load_categories_for_schema(schema_name: str) -> Dict[str, List[str]]:
+    """Load menu categories from YAML macro file, falling back to empty dict."""
+    try:
+        from macro_schema import get_macro_config
+        config = get_macro_config(schema_name)
+        if config:
+            return config.get_menu_categories()
+    except ImportError:
+        pass
+    return {}
 
 
 def extract_categories_from_schema(schema: BaseSchema) -> Dict[str, List[InputType]]:
-    """Extract input categories from schema, returning InputType objects."""
+    """Extract input categories from schema, loading from YAML macro if available."""
     inputs = schema.get_inputs()
     input_by_name = {inp.name: inp for inp in inputs}
+
+    # Try to load categories from YAML macro
+    schema_name = schema._get_schema_name()
+    yaml_categories = _load_categories_for_schema(schema_name)
 
     categories: Dict[str, List[InputType]] = {}
     assigned_names = set()
 
-    for cat_name, input_names in DAI_CATEGORIES.items():
+    for cat_name, input_names in yaml_categories.items():
         cat_inputs = []
         for name in input_names:
             if name in input_by_name:

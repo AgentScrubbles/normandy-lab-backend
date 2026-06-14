@@ -215,10 +215,45 @@ class DAI_Human_Female_Schema(BaseSchema):
         return self.OUTPUT_DIR
 
     def setup_window(self):
-        """Focus and position the DAI game window."""
+        """Focus the DAI game window (don't move - use calibrated position)."""
         try:
-            from window_helpers import setup_window
-            return setup_window(self.GAME.WINDOW_KEYWORD, self.WINDOW_LOCATION[0], self.WINDOW_LOCATION[1])
+            from window_helpers import focus_window, find_window
+            import pyautogui
+            import time
+
+            game_window = find_window(self.GAME.WINDOW_KEYWORD)
+            if not game_window:
+                raise RuntimeError(f"Window titled {self.GAME.WINDOW_KEYWORD} was not found. Is it running?")
+
+            # Use wmctrl to bring window to front
+            focus_window(game_window)
+            time.sleep(0.1)
+
+            # Click on the game window to ensure it has keyboard focus
+            # Use calibrated window position if available
+            cal = self.load_calibration()
+            if cal and cal.window:
+                # Offset further into the window to avoid resize borders
+                click_x = cal.window.reference_position[0] + 150
+                click_y = cal.window.reference_position[1] + 150
+            else:
+                # Fallback: click near top-left of screen
+                click_x, click_y = 150, 150
+
+            print(f"    Clicking at ({click_x}, {click_y}) to focus game", flush=True)
+            pyautogui.click(click_x, click_y)
+            time.sleep(0.2)
+
+            # Click again to make sure - some games need double activation
+            pyautogui.click(click_x, click_y)
+            time.sleep(0.3)
+
+            # Send a harmless key to "wake up" the game's input handling
+            # Use a key that won't do anything in the character creator
+            pyautogui.press('shift')
+            time.sleep(0.1)
+
+            return game_window
         except ImportError:
             return None
 

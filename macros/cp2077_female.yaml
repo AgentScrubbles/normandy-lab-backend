@@ -1,0 +1,71 @@
+version: "1.0"
+game: cyberpunk_2077
+schema: cp2077_female
+
+window:
+  keyword: "Cyberpunk 2077"
+
+navigation:
+  mode: preset_file
+
+preset:
+  format: acu_preset
+  output_dir: "{CP2077_PRESETS_DIR}"
+  filename: "_auto.preset"
+
+# Inputs that are randomized in the dataset.
+# Order matches the filename encoding (underscore-separated values).
+# Variable LocKey inputs (Hair Color, Eyebrow Color, Eyelash Color)
+# are included because they appear in the filename.
+inputs:
+  - name: Skin Tone
+    type: slider
+    options: 12
+    biased: true
+  - name: Skin Type
+    type: slider
+    options: 4
+  - name: Hairstyle
+    type: slider
+    options: 51
+    biased: true
+  - name: Hair Color
+    type: slider
+    options: 30
+    biased: true
+  - name: Eyes
+    type: slider
+    options: 6
+    biased: true
+  - name: Eye Color
+    type: slider
+    options: 6
+    biased: true
+  - name: Eyebrows
+    type: slider
+    options: 12
+    biased: true
+  - name: Eyebrow Color
+    type: slider
+    options: 10
+  - name: Eyelash Color
+    type: slider
+    options: 10
+  - name: Nose
+    type: slider
+    options: 22
+    biased: true
+  - name: Mouth
+    type: slider
+    options: 22
+    biased: true
+  - name: Jaw
+    type: slider
+    options: 22
+    biased: true
+  - name: Ears
+    type: slider
+    options: 22
+  - name: Piercing Color
+    type: slider
+    options: 10

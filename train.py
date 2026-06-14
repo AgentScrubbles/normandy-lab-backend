@@ -33,6 +33,7 @@ from trainer import Trainer
 
 from schemas.me1_female import ME1_Female_Schema
 from schemas.me3_female import ME3_Female_Schema
+from schemas.cp2077_female import CP2077_Female_Schema
 
 
 # -----------------------------

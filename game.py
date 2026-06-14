@@ -18,10 +18,12 @@ Hierarchy:
     ├── MassEffect3
     │   ├── ME3_Female_Schema
     │   └── ME3_Male_Schema
-    └── DragonAgeInquisition
-        ├── DAI_Human_Female
-        ├── DAI_Human_Male
-        └── ... (other species/genders)
+    ├── DragonAgeInquisition
+    │   ├── DAI_Human_Female
+    │   ├── DAI_Human_Male
+    │   └── ... (other species/genders)
+    └── Fallout4
+        └── FO4_Female_Schema
 """
 
 from abc import ABC, abstractmethod
@@ -49,6 +51,7 @@ class AutomationMode(Enum):
     """How the game accepts character configurations."""
     CODE_PASTE = "code_paste"      # Mass Effect style: paste a code string
     DIRECT_UI = "direct_ui"        # Dragon Age style: click UI elements directly
+    PRESET_FILE = "preset_file"    # Fallout 4 style: write JSON preset file to disk
 
 
 class Game(ABC):
@@ -78,6 +81,11 @@ class Game(ABC):
     def uses_direct_ui(cls) -> bool:
         """Whether this game uses direct UI manipulation."""
         return cls.AUTOMATION_MODE == AutomationMode.DIRECT_UI
+
+    @classmethod
+    def uses_preset_file(cls) -> bool:
+        """Whether this game uses preset file writing."""
+        return cls.AUTOMATION_MODE == AutomationMode.PRESET_FILE
 
     @classmethod
     def find_window(cls) -> bool:
@@ -124,10 +132,34 @@ class DragonAgeInquisition(Game):
     """Dragon Age: Inquisition game configuration."""
 
     GAME_NAME = "Dragon Age: Inquisition"
-    WINDOW_KEYWORD = "Dragon Age Inquisition"
+    WINDOW_KEYWORD = "Dragon Age: Inquisition"
     AUTOMATION_MODE = AutomationMode.DIRECT_UI
 
     # Default grid/color picker configurations for DAI
     # These can be overridden in specific schemas if needed
     DEFAULT_GRID_DIVISIONS = 10  # 10x10 = 100 options per coordinate grid
     DEFAULT_PALETTE_SIZE = 36    # 12 hues × 3 saturations for color pickers
+
+
+# =============================================================================
+# Fallout 4 (Preset File Mode via LooksMenu)
+# =============================================================================
+
+class Fallout4(Game):
+    """Fallout 4 game configuration (uses LooksMenu JSON presets)."""
+
+    GAME_NAME = "Fallout 4"
+    WINDOW_KEYWORD = "Fallout4"
+    AUTOMATION_MODE = AutomationMode.PRESET_FILE
+
+
+# =============================================================================
+# Cyberpunk 2077 (Direct UI Mode)
+# =============================================================================
+
+class Cyberpunk2077(Game):
+    """Cyberpunk 2077 game configuration."""
+
+    GAME_NAME = "Cyberpunk 2077"
+    WINDOW_KEYWORD = "Cyberpunk 2077"
+    AUTOMATION_MODE = AutomationMode.DIRECT_UI

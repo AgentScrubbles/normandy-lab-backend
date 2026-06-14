@@ -1,0 +1,136 @@
+version: "1.0"
+game: mass_effect_1
+schema: me1_male
+
+window:
+  keyword: "Mass Effect"
+
+navigation:
+  mode: code_paste
+
+input_handlers:
+  slider:
+    encoding: legacy
+
+inputs:
+  - name: Facial Structure
+    type: slider
+    options: 9
+  - name: Skin Tone
+    type: slider
+    options: 30
+  - name: Complexion
+    type: slider
+    options: 3
+  - name: Neck Thickness
+    type: slider
+    options: 33
+  - name: Face Size
+    type: slider
+    options: 33
+  - name: Cheek Width
+    type: slider
+    options: 33
+  - name: Cheek Bones
+    type: slider
+    options: 33
+  - name: Cheek Gaunt
+    type: slider
+    options: 33
+  - name: Ears Size
+    type: slider
+    options: 33
+  - name: Ears Orientation
+    type: slider
+    options: 33
+  - name: Eye Shape
+    type: slider
+    options: 9
+    biased: true
+  - name: Eye Height
+    type: slider
+    options: 33
+  - name: Eye Width
+    type: slider
+    options: 33
+  - name: Eye Depth
+    type: slider
+    options: 33
+  - name: Brow Depth
+    type: slider
+    options: 33
+  - name: Brow Height
+    type: slider
+    options: 33
+  - name: Iris Color
+    type: slider
+    options: 18
+    biased: true
+  - name: Chin Height
+    type: slider
+    options: 33
+  - name: Chin Depth
+    type: slider
+    options: 33
+  - name: Chin Width
+    type: slider
+    options: 33
+  - name: Jaw Width
+    type: slider
+    options: 33
+  - name: Mouth Shape
+    type: slider
+    options: 11
+    biased: true
+  - name: Mouth Depth
+    type: slider
+    options: 33
+  - name: Mouth Width
+    type: slider
+    options: 33
+  - name: Mouth Lip Size
+    type: slider
+    options: 33
+  - name: Mouth Height
+    type: slider
+    options: 33
+  - name: Nose Shape
+    type: slider
+    options: 13
+    biased: true
+  - name: Nose Height
+    type: slider
+    options: 33
+  - name: Nose Depth
+    type: slider
+    options: 33
+  - name: Hair
+    type: slider
+    options: 25
+    biased: true
+  - name: Beard
+    type: slider
+    options: 14
+    biased: true
+  - name: Brow
+    type: slider
+    options: 7
+    biased: true
+  - name: Hair Color
+    type: slider
+    options: 22
+  - name: Facial Hair Color
+    type: slider
+    options: 20
+    biased: true
+  - name: Scar
+    type: slider
+    options: 13
+    biased: true
+
+paste:
+  actions:
+    - clipboard_copy: "{code}"
+    - click: paste_button
+    - wait_ms: 100
+    - click: paste_button

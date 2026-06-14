@@ -1,0 +1,267 @@
+version: "1.0"
+game: dragon_age_inquisition
+schema: dai_human_female
+
+window:
+  keyword: "Dragon Age: Inquisition"
+
+navigation:
+  mode: direct_ui
+  select_key: space
+  back_key: escape
+  menu_reset: "UP x20"
+  input_reset_key: left
+
+timing:
+  key_press_ms: 100
+  after_select_ms: 300
+  after_back_ms: 300
+  after_slider_reset_ms: 100
+
+input_handlers:
+  slider:
+    reset: "{input_reset_key} x{options}"
+    apply: "RIGHT x{value}"
+  grid:
+    method: mouse_click
+    reference: grid_bounds
+  color:
+    method: mouse_click
+    reference: color_wheel
+
+capture:
+  method: screenshot
+  reset_view:
+    actions: ["{back_key}"]
+    scroll_up: 10
+
+menus:
+  GENERAL:
+    position: 0
+    inputs:
+      - name: Face Shape
+        type: slider
+        options: 7
+        biased: true
+      - name: Skin Tone
+        type: slider
+        options: 11
+        biased: true
+      - name: Complexion
+        type: slider
+        options: 14
+      - name: Eye Color
+        type: slider
+        options: 51
+        biased: true
+      - name: Hair
+        type: slider
+        options: 28
+        biased: true
+      - name: Hair Color
+        type: slider
+        options: 25
+        biased: true
+
+  HEAD_AND_EARS:
+    position: 1
+    inputs:
+      - name: Ear Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Ear Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Earlobe Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Cheekbones
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Cheek Shape
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Brow Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Forehead
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+
+  EYES:
+    position: 2
+    inputs:
+      - name: Eye Shape
+        type: slider
+        options: 8
+        biased: true
+      - name: Eye Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Eye Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Eye Rotation and Spacing
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Eyebrow Style
+        type: slider
+        options: 23
+        biased: true
+      - name: Eyebrow Position
+        type: slider
+        options: 10
+      - name: Eyelash Style
+        type: slider
+        options: 14
+      - name: Outer Iris Color
+        type: color
+        palette_size: 12
+        biased: true
+      - name: Inner Iris Color
+        type: color
+        palette_size: 12
+
+  NOSE:
+    position: 3
+    inputs:
+      - name: Nose Shape
+        type: slider
+        options: 8
+        biased: true
+      - name: Nose Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Nose Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Nose Bridge Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Bridge Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Nose Tip Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Nose Tip Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Nostril Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Broken Nose
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+
+  MOUTH_AND_JAW:
+    position: 4
+    inputs:
+      - name: Mouth Shape
+        type: slider
+        options: 9
+        biased: true
+      - name: Mouth Width
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Mouth Position
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Lip Thickness
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Jawline
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Jaw Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Jowls
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Chin Size
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Chin Shape
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: Double Chin
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+      - name: "Adam's Apple"
+        type: grid
+        x_divisions: 10
+        y_divisions: 10
+
+  MAKEUP:
+    position: 5
+    inputs:
+      - name: Eye Shadow Color
+        type: color
+        palette_size: 12
+      - name: Eye Shadow Intensity
+        type: slider
+        options: 11
+      - name: Under-Eye Color
+        type: color
+        palette_size: 12
+      - name: Under-Brow Color
+        type: color
+        palette_size: 12
+      - name: Under-Brow Intensity
+        type: slider
+        options: 11
+      - name: Eyelash Color
+        type: color
+        palette_size: 12
+      - name: Eyeliner Color
+        type: color
+        palette_size: 12
+      - name: Eyeliner Intensity
+        type: slider
+        options: 11
+      - name: Blush Color
+        type: color
+        palette_size: 12
+      - name: Blush Intensity
+        type: slider
+        options: 11
+      - name: Lip Color
+        type: color
+        palette_size: 12
+      - name: Lip Color Intensity
+        type: slider
+        options: 11
+      - name: Lip Liner Color
+        type: color
+        palette_size: 12
+      - name: Lip Shine
+        type: slider
+        options: 11

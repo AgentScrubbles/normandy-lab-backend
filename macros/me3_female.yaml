@@ -1,0 +1,132 @@
+version: "1.0"
+game: mass_effect_3
+schema: me3_female
+
+window:
+  keyword: "Mass Effect 3"
+
+navigation:
+  mode: code_paste
+
+input_handlers:
+  slider:
+    encoding: legacy
+
+inputs:
+  - name: Facial Structure
+    type: slider
+    options: 9
+  - name: Skin Tone
+    type: slider
+    options: 29
+  - name: Complexion
+    type: slider
+    options: 3
+  - name: Neck Thickness
+    type: slider
+    options: 32
+  - name: Face Size
+    type: slider
+    options: 32
+  - name: Cheek Width
+    type: slider
+    options: 32
+  - name: Cheek Bones
+    type: slider
+    options: 32
+  - name: Cheek Gaunt
+    type: slider
+    options: 32
+  - name: Ears Size
+    type: slider
+    options: 32
+  - name: Ears Orientation
+    type: slider
+    options: 32
+  - name: Eye Shape
+    type: slider
+    options: 9
+  - name: Eye Height
+    type: slider
+    options: 32
+  - name: Eye Width
+    type: slider
+    options: 32
+  - name: Eye Depth
+    type: slider
+    options: 32
+  - name: Brow Depth
+    type: slider
+    options: 32
+  - name: Brow Height
+    type: slider
+    options: 32
+  - name: Iris Color
+    type: slider
+    options: 17
+  - name: Chin Height
+    type: slider
+    options: 32
+  - name: Chin Depth
+    type: slider
+    options: 32
+  - name: Chin Width
+    type: slider
+    options: 32
+  - name: Jaw Width
+    type: slider
+    options: 32
+  - name: Mouth Shape
+    type: slider
+    options: 10
+  - name: Mouth Depth
+    type: slider
+    options: 32
+  - name: Mouth Width
+    type: slider
+    options: 32
+  - name: Mouth Lip Size
+    type: slider
+    options: 32
+  - name: Mouth Height
+    type: slider
+    options: 32
+  - name: Nose Shape
+    type: slider
+    options: 12
+  - name: Nose Height
+    type: slider
+    options: 32
+  - name: Nose Depth
+    type: slider
+    options: 32
+  - name: Hair Color
+    type: slider
+    options: 22
+  - name: Hair Style
+    type: slider
+    options: 20
+  - name: Brow
+    type: slider
+    options: 16
+  - name: Brow Color
+    type: slider
+    options: 20
+  - name: Blush Color
+    type: slider
+    options: 32
+  - name: Lip Color
+    type: slider
+    options: 33
+  - name: Eye Shadow Color
+    type: slider
+    options: 35
+
+paste:
+  actions:
+    - clipboard_copy: "{code}"
+    - click: code_button
+    - wait_ms: 100
+    - click: paste_button
+    - wait_ms: 100
+    - click: paste_button
