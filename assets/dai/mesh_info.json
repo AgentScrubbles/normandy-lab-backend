@@ -1,0 +1,46 @@
+{
+  "fullname": "da3/actors/baseheads/humanfemale/mt_basa_hf_mesh",
+  "name": "mt_basa_hf_mesh",
+  "mesh_type": 1,
+  "lod_count": 6,
+  "bounding_box": {
+    "min": [
+      -0.08879552036523819,
+      1.5080379247665405,
+      -0.11248590052127838
+    ],
+    "max": [
+      0.08882532268762589,
+      1.7769482135772705,
+      0.08694599568843842
+    ]
+  },
+  "lod0": {
+    "sections": [
+      {
+        "material": "FACE",
+        "vertex_count": 4794,
+        "primitive_count": 8910,
+        "vertex_stride": 48,
+        "bones_per_vertex": 4
+      },
+      {
+        "material": "EYE",
+        "vertex_count": 446,
+        "primitive_count": 864,
+        "vertex_stride": 48,
+        "bones_per_vertex": 1
+      },
+      {
+        "material": "LASHES",
+        "vertex_count": 282,
+        "primitive_count": 424,
+        "vertex_stride": 48,
+        "bones_per_vertex": 2
+      }
+    ],
+    "vertex_buffer_size": 265056,
+    "index_buffer_size": 61188,
+    "bone_count": 60
+  }
+}
