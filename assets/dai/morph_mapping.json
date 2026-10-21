@@ -1,0 +1,3396 @@
+{
+  "shader_templates": {
+    "SliderShaderParameterTemplates": [
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "eda89df32a1c264c9ad4477f599dc874",
+        "ParameterName": "ComplextionBlend_Diff_Norm_Spec",
+        "Category": 16,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 2,
+        "PresentationNameX": "Diffuse",
+        "PresentationNameY": "Normal",
+        "PresentationNameZ": "Specular",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "2a80baa9e0644b4f800378f212b9f43a",
+        "ParameterName": "WarPaintChannelSelector",
+        "Category": 10,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0010000000474974513,
+          "y": 0.0010000000474974513,
+          "z": 0.0010000000474974513,
+          "w": 0.0010000000474974513
+        },
+        "Min": 0.0,
+        "Max": 3.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "WarPaint1",
+        "PresentationNameY": "WarPaint2",
+        "PresentationNameZ": "WarPaint3",
+        "PresentationNameW": "WarPaint4"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "51b03315b2677b48ab069882f1ac7da1",
+        "ParameterName": "Eyebrow_BrowSel_Opacity_VOffset",
+        "Category": 14,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 8.0,
+        "Step": 1.0,
+        "ValuesUsed": 2,
+        "PresentationNameX": "Eyebrow Selection",
+        "PresentationNameY": "Eyebrow Opacity",
+        "PresentationNameZ": "Eyebrow Vertical Offset",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "461f456f43b55945b1838640ce37e661",
+        "ParameterName": "MakeupLevels_EyeSh_Eye_Bls_Lp",
+        "Category": 12,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "EyeLiner",
+        "PresentationNameY": "EyeShadow",
+        "PresentationNameZ": "Blush",
+        "PresentationNameW": "Lips"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "8797802c04bfb14ea8b42f5394afa933",
+        "ParameterName": "MakeupGlitter_Eye_Lip_Lev_In_ub",
+        "Category": 12,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "EyeShadow_Main_Glitter",
+        "PresentationNameY": "Lip_Glittler",
+        "PresentationNameZ": "EyeShadow_Inner_Glitter",
+        "PresentationNameW": "Underbrow"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "1db8852472e5324f9af51ee8a6daa968",
+        "ParameterName": "MakeupRecession_Eye_Blush_Ub",
+        "Category": 12,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 2,
+        "PresentationNameX": "EyeShadow_Recession",
+        "PresentationNameY": "Blush_Recession",
+        "PresentationNameZ": "UnderBrow_Recession",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "e595078705a16247aa00ce261fa3461f",
+        "ParameterName": "ScalpTintChannel",
+        "Category": 17,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "ScalpTint_01",
+        "PresentationNameY": "ScalpTint_02",
+        "PresentationNameZ": "ScalpTint_03",
+        "PresentationNameW": "ScalpTint_04"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "792f4ed212a12942aa6c0305ddab1092",
+        "ParameterName": "TattooChannelSelector",
+        "Category": 10,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "Tattoo_01",
+        "PresentationNameY": "Tattoo_02",
+        "PresentationNameZ": "Tattoo_03",
+        "PresentationNameW": "Tattoo_04"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "f803ceb85c33c9479bef6c16dc86ad49",
+        "ParameterName": "StubbleOpacity",
+        "Category": 13,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 10.0,
+        "Step": 1.0,
+        "ValuesUsed": 3,
+        "PresentationNameX": "Moustache",
+        "PresentationNameY": "Goate",
+        "PresentationNameZ": "Porkchops",
+        "PresentationNameW": "Scalp"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "3f0a551fca4fb446a9eef1f0782b5a71",
+        "ParameterName": "StubbleRecess",
+        "Category": 13,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "Moustache_Recession",
+        "PresentationNameY": "Goate_Recession",
+        "PresentationNameZ": "Porkchops_Recession",
+        "PresentationNameW": "Hairline_Recession"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "c5a962afa9acf84f8d8f8e218df7ed3c",
+        "ParameterName": "ScarRegions_R",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "ScarRegions_R_R",
+        "PresentationNameY": "ScarRegions_R_G",
+        "PresentationNameZ": "ScarRegions_R_B",
+        "PresentationNameW": "ScarRegions_R_A"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "e18332cf8156694b8e7baa0d1e1d1259",
+        "ParameterName": "ScarRegions_G",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "ScarRegions_G_R",
+        "PresentationNameY": "ScarRegions_G_G",
+        "PresentationNameZ": "ScarRegions_G_B",
+        "PresentationNameW": "ScarRegions_G_A"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "2ea09b2a06daa347b9dada2d40d835bc",
+        "ParameterName": "ScarRegions_B",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "ScarRegions_B_R",
+        "PresentationNameY": "ScarRegions_B_G",
+        "PresentationNameZ": "ScarRegions_B_B",
+        "PresentationNameW": "ScarRegions_B_A"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "88333d3ee0f7e54790616874e17651c4",
+        "ParameterName": "ScarRegions_A",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "ScarRegions_A_R",
+        "PresentationNameY": "ScarRegions_A_G",
+        "PresentationNameZ": "ScarRegions_A_B",
+        "PresentationNameW": "ScarRegions_A_A"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "0b5ad27318301443ab6995a6c1b41bc1",
+        "ParameterName": "ScarOffsets",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": -0.10000000149011612,
+        "Max": 0.10000000149011612,
+        "Step": 0.009999999776482582,
+        "ValuesUsed": 1,
+        "PresentationNameX": "ScarOffsets_X",
+        "PresentationNameY": "ScarOffsets_Y",
+        "PresentationNameZ": "",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "a69a20467025374f861c84b2e65bc968",
+        "ParameterName": "ScarBlend_Color_Normals",
+        "Category": 11,
+        "Default": {
+          "_type": "Vec4",
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0,
+          "w": 1.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 1,
+        "PresentationNameX": "Scar_Color_Opacity",
+        "PresentationNameY": "Scar_Normal_Intensity",
+        "PresentationNameZ": "",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "047bc6bbde7c5449b48dd3bed3e2ee19",
+        "ParameterName": "TintDetailWeights",
+        "Category": 16,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 3,
+        "PresentationNameX": "Capillaries",
+        "PresentationNameY": "Freckles",
+        "PresentationNameZ": "5 O'clock Shadow",
+        "PresentationNameW": "Eye Socket Tint"
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "cb575a78326e9d4a8a7d204d56c9ceae",
+        "ParameterName": "ScalpSwitch",
+        "Category": 17,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 1.0,
+        "ValuesUsed": 2,
+        "PresentationNameX": "ScalpSwitchDiffuse",
+        "PresentationNameY": "ScalpSwitchNormal",
+        "PresentationNameZ": "ScalpSwitchSpecular",
+        "PresentationNameW": ""
+      },
+      {
+        "_type": "SliderShaderParameterTemplate",
+        "_guid": "a2f156a5ed6176459831ebd6c101ed60",
+        "ParameterName": "StubbleHeadRecess",
+        "Category": 17,
+        "Default": {
+          "_type": "Vec4",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "Min": 0.0,
+        "Max": 1.0,
+        "Step": 0.10000000149011612,
+        "ValuesUsed": 2,
+        "PresentationNameX": "Sheppard_Recess",
+        "PresentationNameY": "BruceWillis_Recess",
+        "PresentationNameZ": "Picard_Recess",
+        "PresentationNameW": ""
+      }
+    ],
+    "ColorShaderParameterTemplates": [
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "cdd68a4d53fb1e4f85e6990967df0c52",
+        "ParameterName": "EyebrowColor",
+        "Category": 14,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "EyebrowColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "cc422005606b854b89827d8bc9eff1c4",
+        "ParameterName": "MakeupColorCheeks",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorCheeks"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "50f986a127c1e843a26b8b90ff515728",
+        "ParameterName": "MakeupColorEyeliner",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorEyeliner"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "792e5b6297dcef4bab3c1b82b9b7aa24",
+        "ParameterName": "MakeupColorEyesA",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorEyesA"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "cd30b6d49b8d0643aa9a6a946ddc4873",
+        "ParameterName": "MakeupColorEyesB",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorEyesB"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "e12096e7f00ef94eb44ed22c5b33dbce",
+        "ParameterName": "MakeupColorLipLiner",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorLipLiner"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "dc4fcec6eed21442877302dc119319f6",
+        "ParameterName": "MakeupColorLips",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorLips"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "3d3dada2b0285540bff3b5f7441c179b",
+        "ParameterName": "ScalpTintColor",
+        "Category": 17,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "ScalpTintColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "6ae3a8f9e34be74f94ef6cb758c7f57f",
+        "ParameterName": "MakeupColorUnderbrow",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorUnderbrow"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "3269f754d222a641a66c06c8cf5d7b57",
+        "ParameterName": "MakeupColorEyeTransition",
+        "Category": 12,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "MakeupColorEyeTransition"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "a429104d9919be4ab1d3c8896c33e591",
+        "ParameterName": "TattooColor",
+        "Category": 10,
+        "Colors": {
+          "_external": "37e075f97ccbe1119d92fe82102ea152",
+          "_class": "15336b5ee1572dda304581fef96a0248"
+        },
+        "Default": 0,
+        "PresentationName": "TattooColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "caf6b5d5a157534c8ffe30ea810501d8",
+        "ParameterName": "StubbleColor",
+        "Category": 13,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "StubbleColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "97e02a1e9c7bd64faa06fe3ca43cb666",
+        "ParameterName": "TintInner",
+        "Category": 15,
+        "Colors": {
+          "_external": "51f76bdd4a02e411ae0893bc5558aec2",
+          "_class": "0a4377cc8c7958b6ff93cdf00cddca7f"
+        },
+        "Default": 0,
+        "PresentationName": "TintInner"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "032b85349a473841b465d752a17e810a",
+        "ParameterName": "TintMid",
+        "Category": 15,
+        "Colors": {
+          "_external": "51f76bdd4a02e411ae0893bc5558aec2",
+          "_class": "0a4377cc8c7958b6ff93cdf00cddca7f"
+        },
+        "Default": 0,
+        "PresentationName": "TintMid"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "958ce8ef4e768748aec851c5f722de57",
+        "ParameterName": "LashColor",
+        "Category": 15,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "LashColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "16b97db59c371c47b61414ab86e693aa",
+        "ParameterName": "hairColor",
+        "Category": 17,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "hairColor"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "2b6e6564e4e2da46903d17af0f547df5",
+        "ParameterName": "Spec1Colour",
+        "Category": 17,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "Spec1Colour"
+      },
+      {
+        "_type": "ColorShaderParameterTemplate",
+        "_guid": "d1ad19b485820f43b80d166e0dfb7f68",
+        "ParameterName": "Spec2Colour",
+        "Category": 17,
+        "Colors": {
+          "_external": "f61c88688cfde3119a3be0211491d537",
+          "_class": "329c2f7979442ef4c77a37b0e454665e"
+        },
+        "Default": 0,
+        "PresentationName": "Spec2Colour"
+      }
+    ],
+    "TextureShaderParameterTemplates": [
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "fed050e441aed545a7fbb672e964f635",
+        "ParameterName": "D1_Diffuse",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "74650c26ee31e3119712fdf7bf8336dd",
+              "_class": "017d1ecb3dcb5899f34e1803da09cc9b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "aa268b1f1d26e31181ec9eedec7a1a8c",
+              "_class": "866db3ede9c982d48c8975e0c72065b0"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "b933d6a73f1ae31181bfc47cdf80ca76",
+              "_class": "15f7be51221160e75228e26cb88982c8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "4a55488fe009e3119957b37bc33e9bfe",
+              "_class": "4cf1233a71d26fb17d43a135777bbb5f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "2a689420de09e311abcda6c720f19318",
+              "_class": "2a996396960e42c625564600bf59eb0b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "9abfaa05b106e311a0db868213969945",
+              "_class": "4020a763cfc04163674780583021513a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "a978e4caca0ae311be2580812b2c30a7",
+              "_class": "f8ac33114afe336a778849dbef54bf5c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "2bc4892d7bd4e311bc43e0fcad841095",
+              "_class": "0ad34c91fd317496c4045633fb8ba724"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "e4c5b873dddae311b693907ebb7bfa54",
+              "_class": "dca1499b10b66feda624fe06eebd92ca"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "434995bcfe60e311a0b78ad6b16be842",
+              "_class": "e234566dd6f54bba691438cb1e8472f6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Proxy",
+            "Texture": {
+              "_external": "440adc0d49dde31199c6d99f20ad5bd9",
+              "_class": "deec43e3fecd9875c8d0dfca2b4ca57f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Bruised",
+            "Texture": {
+              "_external": "9f066cabe161e311b94d835bbcb4e8a4",
+              "_class": "d7e2ca7f81cf1730029c25af486c3c1f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind_01",
+            "Texture": {
+              "_external": "e37e74156bf3e3118479f40c399e3b29",
+              "_class": "c6d3127467419d351846fafbac00a772"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind_02",
+            "Texture": {
+              "_external": "35f0b25aa6f5e31190b4dca8c23ea7f2",
+              "_class": "aa739affdef4d79c43fcac5b5b804b38"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "755b25840d1de41189898c4f6dac6650",
+              "_class": "52c3f0118a9cc9331c1ece34fe4b62aa"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "18a6aef31e22e311a3c2f12f445be69c",
+              "_class": "30296f3f7a068ef63d97e39cb76c0503"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "1b0438dc0d1de41189898c4f6dac6650",
+              "_class": "6ab7e39e45bca3e6599ddab043c25dcd"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "633831458b62e311b94d835bbcb4e8a4",
+              "_class": "9526ad53b3c74c1403c550fa1b2870e7"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "D1_Diffuse"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "d8d8da594f28ad4e88dc49a78a15ed89",
+        "ParameterName": "D2_Diffuse",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "74650c26ee31e3119712fdf7bf8336dd",
+              "_class": "017d1ecb3dcb5899f34e1803da09cc9b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "aa268b1f1d26e31181ec9eedec7a1a8c",
+              "_class": "866db3ede9c982d48c8975e0c72065b0"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "b933d6a73f1ae31181bfc47cdf80ca76",
+              "_class": "15f7be51221160e75228e26cb88982c8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "4a55488fe009e3119957b37bc33e9bfe",
+              "_class": "4cf1233a71d26fb17d43a135777bbb5f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "2a689420de09e311abcda6c720f19318",
+              "_class": "2a996396960e42c625564600bf59eb0b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "9abfaa05b106e311a0db868213969945",
+              "_class": "4020a763cfc04163674780583021513a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "a978e4caca0ae311be2580812b2c30a7",
+              "_class": "f8ac33114afe336a778849dbef54bf5c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "2bc4892d7bd4e311bc43e0fcad841095",
+              "_class": "0ad34c91fd317496c4045633fb8ba724"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "e4c5b873dddae311b693907ebb7bfa54",
+              "_class": "dca1499b10b66feda624fe06eebd92ca"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "434995bcfe60e311a0b78ad6b16be842",
+              "_class": "e234566dd6f54bba691438cb1e8472f6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Bruised",
+            "Texture": {
+              "_external": "9f066cabe161e311b94d835bbcb4e8a4",
+              "_class": "d7e2ca7f81cf1730029c25af486c3c1f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind_01",
+            "Texture": {
+              "_external": "e37e74156bf3e3118479f40c399e3b29",
+              "_class": "c6d3127467419d351846fafbac00a772"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind_02",
+            "Texture": {
+              "_external": "35f0b25aa6f5e31190b4dca8c23ea7f2",
+              "_class": "aa739affdef4d79c43fcac5b5b804b38"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "755b25840d1de41189898c4f6dac6650",
+              "_class": "52c3f0118a9cc9331c1ece34fe4b62aa"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "18a6aef31e22e311a3c2f12f445be69c",
+              "_class": "30296f3f7a068ef63d97e39cb76c0503"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "1b0438dc0d1de41189898c4f6dac6650",
+              "_class": "6ab7e39e45bca3e6599ddab043c25dcd"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "633831458b62e311b94d835bbcb4e8a4",
+              "_class": "9526ad53b3c74c1403c550fa1b2870e7"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "D2_Diffuse"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "e59bd633d6f7534c931f65656096f91e",
+        "ParameterName": "WarPaintMask",
+        "Category": 10,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "DwarfWarPaint",
+            "Texture": {
+              "_external": "414696ec7837e311821aea2bad5832e8",
+              "_class": "b84e82e1d1a78fa03ce62795129d1fde"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "WarPaint2",
+            "Texture": {
+              "_external": "414696ec7837e311821aea2bad5832e8",
+              "_class": "b84e82e1d1a78fa03ce62795129d1fde"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Hawke_Bloodmark",
+            "Texture": {
+              "_external": "8a224adfc007e411bb8aa2aa614e9f6e",
+              "_class": "a2559e4aafcc98153c0333b62d1fb956"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "WarPaintMask"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "9767d7d52aa2b146a85a7d67b929014f",
+        "ParameterName": "S1_Specular",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "c48abb29ee31e3119712fdf7bf8336dd",
+              "_class": "b48bc9d6b96c7d80be7025c21535acc1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "548766281d26e31181ec9eedec7a1a8c",
+              "_class": "ed9d600915999441a9c9e0e55f9532d8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "497a878e421ae31181bfc47cdf80ca76",
+              "_class": "552f3fc776aae0767a235282bd1f0cdb"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "8af79a1fdf09e3119957b37bc33e9bfe",
+              "_class": "90e6378e6361c6ef5541bf55714d170d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "08be170bb106e311a0db868213969945",
+              "_class": "5f37c720a0783add0c4cbd3a2f324629"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "08be170bb106e311a0db868213969945",
+              "_class": "5f37c720a0783add0c4cbd3a2f324629"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "19cc98d5ca0ae311be2580812b2c30a7",
+              "_class": "20fbceb8e9b46809feb4daba7f566f7d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "63e88939a6d4e311bc43e0fcad841095",
+              "_class": "78663326c0f8e2c23d1276803dc60b8f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "ada7d80902dbe311b693907ebb7bfa54",
+              "_class": "2f49a6c44883833a8b52f8199a699491"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "d38466c5fe60e311a0b78ad6b16be842",
+              "_class": "e4a7a98c299ed6b251e7731bacc1eb45"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "76a31ad2621be4118988d8515fa23be0",
+              "_class": "6bfea44b5f3e45e26cf1880f54eb0637"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "c8892b0d2c22e3118e9987709922009c",
+              "_class": "751cc498218d0a34e873f03e0bb5a050"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "efed38e10d1de41189898c4f6dac6650",
+              "_class": "736a6e9bffe3cfd6b035f27cf5872adc"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "7bf0309a4429e411a86bbc376ab8fd6d",
+              "_class": "831571cb94f52e35e59cea0d9b99295a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "S1_Specular"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "c0e695ceeddc9f42be12b893fb6237a7",
+        "ParameterName": "S2_Specular",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "c48abb29ee31e3119712fdf7bf8336dd",
+              "_class": "b48bc9d6b96c7d80be7025c21535acc1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "548766281d26e31181ec9eedec7a1a8c",
+              "_class": "ed9d600915999441a9c9e0e55f9532d8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "497a878e421ae31181bfc47cdf80ca76",
+              "_class": "552f3fc776aae0767a235282bd1f0cdb"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "8af79a1fdf09e3119957b37bc33e9bfe",
+              "_class": "90e6378e6361c6ef5541bf55714d170d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "08be170bb106e311a0db868213969945",
+              "_class": "5f37c720a0783add0c4cbd3a2f324629"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "08be170bb106e311a0db868213969945",
+              "_class": "5f37c720a0783add0c4cbd3a2f324629"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "19cc98d5ca0ae311be2580812b2c30a7",
+              "_class": "20fbceb8e9b46809feb4daba7f566f7d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "63e88939a6d4e311bc43e0fcad841095",
+              "_class": "78663326c0f8e2c23d1276803dc60b8f"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "ada7d80902dbe311b693907ebb7bfa54",
+              "_class": "2f49a6c44883833a8b52f8199a699491"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "d38466c5fe60e311a0b78ad6b16be842",
+              "_class": "e4a7a98c299ed6b251e7731bacc1eb45"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "76a31ad2621be4118988d8515fa23be0",
+              "_class": "6bfea44b5f3e45e26cf1880f54eb0637"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "c8892b0d2c22e3118e9987709922009c",
+              "_class": "751cc498218d0a34e873f03e0bb5a050"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "efed38e10d1de41189898c4f6dac6650",
+              "_class": "736a6e9bffe3cfd6b035f27cf5872adc"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "7bf0309a4429e411a86bbc376ab8fd6d",
+              "_class": "831571cb94f52e35e59cea0d9b99295a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "S2_Specular"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "159caf94e163544eb81d1a1ab8e01ff8",
+        "ParameterName": "N1_Normal",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "84dbde27ee31e3119712fdf7bf8336dd",
+              "_class": "67a44e23b970a4a548070282cff7a5c8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "93fdc8241d26e31181ec9eedec7a1a8c",
+              "_class": "647a607ed24947d7e6d0da1620d616ac"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "19bc21ba3f1ae31181bfc47cdf80ca76",
+              "_class": "ec63d99c03c2abc10c1a25d53b73a239"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "9a9a4b1bdf09e3119957b37bc33e9bfe",
+              "_class": "e02315625149704207ab7695a9db9181"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "20020c09b106e311a0db868213969945",
+              "_class": "6382643aa13488afde6dd2556306a40b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "20020c09b106e311a0db868213969945",
+              "_class": "6382643aa13488afde6dd2556306a40b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "89c200d0ca0ae311be2580812b2c30a7",
+              "_class": "76ab9517f54f84496e0438c1e1ecf99c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "81775f307bd4e311bc43e0fcad841095",
+              "_class": "02a904b8406921fc4f66a6ab96675b09"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "f66e8b75dddae311b693907ebb7bfa54",
+              "_class": "37712e2081286510c92e563b7d5242a3"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "e3f9f4c0fe60e311a0b78ad6b16be842",
+              "_class": "7ae3b940907b893b4dc3522dc1252613"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Bruised",
+            "Texture": {
+              "_external": "10b0c0afe161e311b94d835bbcb4e8a4",
+              "_class": "2f8dd9ae9e6cf6368becd749c53a4d6c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind",
+            "Texture": {
+              "_external": "154262c9abf5e31190b4dca8c23ea7f2",
+              "_class": "8d98e190a0610d6fa084b1eb7c4d4dcc"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "b6648fcf621be4118988d8515fa23be0",
+              "_class": "567fb01cd939c4c3d3a4cf67fada31e1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "289c3a201f22e311a3c2f12f445be69c",
+              "_class": "f665eb171ff7bcb326cbf205494433e7"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "e72f69df0d1de41189898c4f6dac6650",
+              "_class": "9e0f09439f1ed788a37ed9bf680d4037"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "4286c63dff60e311b16ffdfe9a9fb390",
+              "_class": "7bb7dafd149e2aca436367a14fe3e2e6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "N1_Normal"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "037eb26410b0ca4897f65e4376457cfa",
+        "ParameterName": "N2_Normal",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Masculine",
+            "Texture": {
+              "_external": "84dbde27ee31e3119712fdf7bf8336dd",
+              "_class": "67a44e23b970a4a548070282cff7a5c8"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Feminine",
+            "Texture": {
+              "_external": "93fdc8241d26e31181ec9eedec7a1a8c",
+              "_class": "647a607ed24947d7e6d0da1620d616ac"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven",
+            "Texture": {
+              "_external": "19bc21ba3f1ae31181bfc47cdf80ca76",
+              "_class": "ec63d99c03c2abc10c1a25d53b73a239"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "RedTemplar",
+            "Texture": {
+              "_external": "9a9a4b1bdf09e3119957b37bc33e9bfe",
+              "_class": "e02315625149704207ab7695a9db9181"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Enchanter",
+            "Texture": {
+              "_external": "20020c09b106e311a0db868213969945",
+              "_class": "6382643aa13488afde6dd2556306a40b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Male Merc",
+            "Texture": {
+              "_external": "20020c09b106e311a0db868213969945",
+              "_class": "6382643aa13488afde6dd2556306a40b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Female Merc",
+            "Texture": {
+              "_external": "89c200d0ca0ae311be2580812b2c30a7",
+              "_class": "76ab9517f54f84496e0438c1e1ecf99c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted",
+            "Texture": {
+              "_external": "81775f307bd4e311bc43e0fcad841095",
+              "_class": "02a904b8406921fc4f66a6ab96675b09"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Aged",
+            "Texture": {
+              "_external": "f66e8b75dddae311b693907ebb7bfa54",
+              "_class": "37712e2081286510c92e563b7d5242a3"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Leliana NOT FOR CHARGEN!",
+            "Texture": {
+              "_external": "e3f9f4c0fe60e311a0b78ad6b16be842",
+              "_class": "7ae3b940907b893b4dc3522dc1252613"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Bruised",
+            "Texture": {
+              "_external": "10b0c0afe161e311b94d835bbcb4e8a4",
+              "_class": "2f8dd9ae9e6cf6368becd749c53a4d6c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Chasind",
+            "Texture": {
+              "_external": "154262c9abf5e31190b4dca8c23ea7f2",
+              "_class": "8d98e190a0610d6fa084b1eb7c4d4dcc"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "human female inq",
+            "Texture": {
+              "_external": "b6648fcf621be4118988d8515fa23be0",
+              "_class": "567fb01cd939c4c3d3a4cf67fada31e1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarf Female",
+            "Texture": {
+              "_external": "289c3a201f22e311a3c2f12f445be69c",
+              "_class": "f665eb171ff7bcb326cbf205494433e7"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Rough",
+            "Texture": {
+              "_external": "e72f69df0d1de41189898c4f6dac6650",
+              "_class": "9e0f09439f1ed788a37ed9bf680d4037"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Elf  Male",
+            "Texture": {
+              "_external": "4286c63dff60e311b16ffdfe9a9fb390",
+              "_class": "7bb7dafd149e2aca436367a14fe3e2e6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "N2_Normal"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "d5051622a2f86b4691a992f2ef88c72c",
+        "ParameterName": "TattooMask",
+        "Category": 10,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Human_Tattoo_01",
+            "Texture": {
+              "_external": "c4aea0b27f45e211b0c9e67fb8d58b13",
+              "_class": "65bcb4f28f8748e44e4deb185ad6febc"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dalish_Tattoo_01",
+            "Texture": {
+              "_external": "c4514db87f45e211b0c9e67fb8d58b13",
+              "_class": "3b7d37df9dcdd77c088b95f27f2b957b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven Tattoo 01",
+            "Texture": {
+              "_external": "64f8bab37f45e211b0c9e67fb8d58b13",
+              "_class": "678a5d3567170a66ff5471f2110fc182"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dwarven Tattoo 02",
+            "Texture": {
+              "_external": "5e34eb7e8af5e311a36be64e40ff33d3",
+              "_class": "294b876e0228f935143204823a89c44e"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Human_Tattoo_02",
+            "Texture": {
+              "_external": "5852f4af6b0ce411a1129bf4f61df0f7",
+              "_class": "bf865824f7a5cf1ed2cec2b42ff89dc9"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "TattooMask"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "dbe097acfa3dea44ba0c35efb11142b2",
+        "ParameterName": "EyeLashDiffuse",
+        "Category": 15,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ThinLashes",
+            "Texture": {
+              "_external": "a1d3d005e85de311984eabd274bb672a",
+              "_class": "852c18dd681d20f36cf94bf2e0a94a48"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ThickLashes",
+            "Texture": {
+              "_external": "91a6d704e85de311984eabd274bb672a",
+              "_class": "6cd9729c3a05f46cbe8a02a271c4ab02"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "NeutralLashes",
+            "Texture": {
+              "_external": "c3044b720502e411b257cd9ad72bacdc",
+              "_class": "dabee262766372cd49941fffeae6783e"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "EyeLashDiffuse"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "96f715ae429ee648ba8388c2166b308a",
+        "ParameterName": "HairCardDiffuse",
+        "Category": 17,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Hair_Straight_Thick",
+            "Texture": {
+              "_external": "b6b4ea351389e3118b60f1ccec5614d6",
+              "_class": "b007fd6d1d9bafca2ccc619003775f16"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Hair_Wavy_Thick",
+            "Texture": {
+              "_external": "88b44361daa4e311bf01ca100c3f4277",
+              "_class": "3ec8c092c3b0aaa36d6883d35dc0812a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "HairCardDiffuse"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "5610a0661e545e419f6c21b91e7eee0e",
+        "ParameterName": "HairCardNormal",
+        "Category": 17,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Hair_Straight_Thick",
+            "Texture": {
+              "_external": "ba3a6d381389e3118b60f1ccec5614d6",
+              "_class": "513ea45fbdbcad27d663526cc024a63b"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Hair_Wavy_Thick",
+            "Texture": {
+              "_external": "449ae865daa4e311bf01ca100c3f4277",
+              "_class": "5e14458beaa4b5f3d696be67aac7aa88"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "HairCardNormal"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "9df7134ddf178441981805711f843d10",
+        "ParameterName": "TintGradient",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_00",
+            "Texture": {
+              "_external": "985907b50432e311826dfaf47d46a0d3",
+              "_class": "088436d6ed21909b49ed925a4e4fe34c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_01",
+            "Texture": {
+              "_external": "6e37b47c0532e311826dfaf47d46a0d3",
+              "_class": "bc174889299a8c447081c6fb4b405a57"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_02",
+            "Texture": {
+              "_external": "ddc142e20532e311826dfaf47d46a0d3",
+              "_class": "6537d016bceb72a840790b84578b7a35"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_03",
+            "Texture": {
+              "_external": "a1a1dcdc10ece311991fdea1b3369140",
+              "_class": "980b8929e0f4552efe718e58bf53dfa4"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_04",
+            "Texture": {
+              "_external": "a9f6ec5c0132e311826dfaf47d46a0d3",
+              "_class": "821546bc524ade275a2e86d42a891241"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_05",
+            "Texture": {
+              "_external": "92509ed634ece3119d0acc7dcdb0443d",
+              "_class": "c490bb2cfbaa58493f6c8f443a742d11"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_06",
+            "Texture": {
+              "_external": "438dae74fdece3118cd2eaf7a579406f",
+              "_class": "d4f19b5f07e1f13e4bbf6bfec6998c0d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_07",
+            "Texture": {
+              "_external": "e66e8375fdece3118cd2eaf7a579406f",
+              "_class": "acf410e05555a74e2b2a6ed694b2fdbd"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_08",
+            "Texture": {
+              "_external": "61ad3e76fdece3118cd2eaf7a579406f",
+              "_class": "2c41c93a268617256f254a002c21b380"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_09",
+            "Texture": {
+              "_external": "82a5c1a8b5ede311ac699ccbeb3ee043",
+              "_class": "85d2c32ccf0ec06a788a2eb1bc62197e"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "SkinTint_10",
+            "Texture": {
+              "_external": "0c6e7bc588eee3118b15b36d87e17789",
+              "_class": "3df905b995a22b6b2266312c26cf24e6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "TintGradient"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "d42df9f98b02fc45bb0368b1988fce00",
+        "ParameterName": "ScalpDiffuse",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_Elvis",
+            "Texture": {
+              "_external": "6ed42e49dc89e311a716dc16f46f7249",
+              "_class": "2d284908e681f6132eade118018d851d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_Aniston",
+            "Texture": {
+              "_external": "cdd39b94fcdfe3118791e3f3d8281a65",
+              "_class": "a792f975f9114b9b71eb85fd6e0fb0ad"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_Herman",
+            "Texture": {
+              "_external": "659994f760d4e311b4e8ef1be3ea00d3",
+              "_class": "ab2257ba26dead92874146d46bde5fb1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_Picard",
+            "Texture": {
+              "_external": "415d21a2c7d6e311a0838638cb7dede2",
+              "_class": "d54d91f50882b0b6cfedd4717b75e127"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_sansa",
+            "Texture": {
+              "_external": "d9b9db6edc3de3118f7199f3ff26d470",
+              "_class": "bb3ef128ae4a5875de584cb65c0962f1"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_sinead",
+            "Texture": {
+              "_external": "1d2c6856fb9fe311bc8bf4a0258afb47",
+              "_class": "994cac084b49424f9a5a3d2e2e4cd27a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_afro",
+            "Texture": {
+              "_external": "59aa3d4b4b0de411b0819d4701f9cffe",
+              "_class": "6d7c687a4f113b196cb4223405547d98"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_shepard",
+            "Texture": {
+              "_external": "c9376aa1a213e41182e196c883b2d4b7",
+              "_class": "72080c134463a35f6782419df38dedfa"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpDiffuse_sarge",
+            "Texture": {
+              "_external": "2f910733a81de411ab5ece166784ed80",
+              "_class": "edb432a2f7c5eac48f312a471048819e"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "ScalpDiffuse"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "286eddd30f11cb4385015c745a376b93",
+        "ParameterName": "ScalpNormal",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_Elvis",
+            "Texture": {
+              "_external": "2fe20558dc89e311a716dc16f46f7249",
+              "_class": "19d3889cf7d0ace1514b7c06b9cbb013"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_Aniston",
+            "Texture": {
+              "_external": "29f93c6dfcdfe3118791e3f3d8281a65",
+              "_class": "f4417dbf2ffc75c41c2ab835607cad7e"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_Herman",
+            "Texture": {
+              "_external": "d85038fd60d4e311b4e8ef1be3ea00d3",
+              "_class": "895297689f0ff5dc0bc895eb074419e6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_Picard",
+            "Texture": {
+              "_external": "8124699bc7d6e311a0838638cb7dede2",
+              "_class": "b537b84b2dcdd9ff3159207cbfca2e91"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_sansa",
+            "Texture": {
+              "_external": "27b7176ddc3de3118f7199f3ff26d470",
+              "_class": "a2d7191ac33b6e1d5e2c8afa91a65d62"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_sinead",
+            "Texture": {
+              "_external": "5f9698fe27a3e311b40bd1c9dfb2f942",
+              "_class": "e1c0f258368e47e2c65537e1d0ded22d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_afro",
+            "Texture": {
+              "_external": "e4cf564f4b0de411b0819d4701f9cffe",
+              "_class": "520ff03bd4dbad98efdf07e29e3fcb73"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_sheppard",
+            "Texture": {
+              "_external": "12935e8b7603e3119ca59ead3c473bc3",
+              "_class": "2f3921b4147be85104bac9711a1c8005"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpNormal_sarge",
+            "Texture": {
+              "_external": "de55264da81de411ab5ece166784ed80",
+              "_class": "fbd203d1483f91334b46f5c09c177ae0"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "ScalpNormal"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "9b395d7635f5c94ba9156b8cae7ecf41",
+        "ParameterName": "ScalpSpecular",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_Elvis",
+            "Texture": {
+              "_external": "47c0a25bdc89e311a716dc16f46f7249",
+              "_class": "48c1f66aa7a7b73cc420d379ad93dbd3"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_Aniston",
+            "Texture": {
+              "_external": "ea7a118dfcdfe3118791e3f3d8281a65",
+              "_class": "eed35cbfd63bb44b52cdb1ebf026b4ca"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_Herman",
+            "Texture": {
+              "_external": "5744450261d4e311b4e8ef1be3ea00d3",
+              "_class": "7507efa203a3e97b03f9f8d8833c0a89"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_Picard",
+            "Texture": {
+              "_external": "5705f9a8c7d6e311a0838638cb7dede2",
+              "_class": "a7b121e9ad51b42b1a9bf754014f3aa6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_sansa",
+            "Texture": {
+              "_external": "3d58fee2110de4118995fb1fc9070e0c",
+              "_class": "3c736ef1b4eb51304c03085e96245eb5"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_sinead",
+            "Texture": {
+              "_external": "2bc04f0928a3e311b40bd1c9dfb2f942",
+              "_class": "ade8b1162b3e2d5beb174f5a300ab7f5"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_afro",
+            "Texture": {
+              "_external": "27b5a3514b0de411b0819d4701f9cffe",
+              "_class": "409c70a889e4ae7d395fcc7ff87695a4"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpecular_shepard",
+            "Texture": {
+              "_external": "6479c2a4a213e41182e196c883b2d4b7",
+              "_class": "a59403ddd49d516bbb7ae9ed4779efe5"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpSpec_sarge",
+            "Texture": {
+              "_external": "0c6d7b51a81de411ab5ece166784ed80",
+              "_class": "14697a313bb01d92a3aed7ebb565cc3d"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "ScalpSpecular"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "c0b31dbf9e7b3f48b2b2dbe8095e202e",
+        "ParameterName": "ScalpTint",
+        "Category": 16,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpTint_01",
+            "Texture": {
+              "_external": "85aae4aecd31e31199ac902f21e498e5",
+              "_class": "ca5c8225cc3c9dd54f3a2ec930ae9b6c"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpTint_02",
+            "Texture": {
+              "_external": "3b1c43487e00e41182bcc86b6574c08e",
+              "_class": "18cf9cb5a843d5cbf22d151d076f8997"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpTint_03",
+            "Texture": {
+              "_external": "3e48db54240de4118995fb1fc9070e0c",
+              "_class": "8de690e8202cfdb46fecbea7c08d3fd0"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "ScalpTint_afro",
+            "Texture": {
+              "_external": "32ea52594b0de411b0819d4701f9cffe",
+              "_class": "08f063a1699fba0f1716f8e5d63a8136"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Scalptint_sarge",
+            "Texture": {
+              "_external": "762c565aa81de411ab5ece166784ed80",
+              "_class": "148ed273eeded0d7ad6e87c4ff5594df"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "ScalpTint"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "2851357c6b9d2043ae29df45731fbcca",
+        "ParameterName": "Diffuse_eye",
+        "Category": 15,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "Regular_eye",
+            "Texture": {
+              "_external": "7645835a9e03e311a126c8284f642a8f",
+              "_class": "503931c9e064921f27557062de269fb5"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Dark_Regular_eye",
+            "Texture": {
+              "_external": "cbd5a726cb5ee31181e0c86fce164acb",
+              "_class": "4a1cc0291d6b30a59f318a5b156b357a"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Blighted_Eye",
+            "Texture": {
+              "_external": "d2507f989ed4e311bc43e0fcad841095",
+              "_class": "8b6781ea5e3534b1dd6d223d3cc174c6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": "Eye Texture"
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "a2cf77a2b1911e49a2a95bc59659c30b",
+        "ParameterName": "ScarMask",
+        "Category": 11,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScarMaskTexture",
+            "Texture": {
+              "_external": "3149f99637d2e311accab289eff2b287",
+              "_class": "e3eb0d9ac88128fdad8934c9857dbbb2"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Scar2MaskTexture",
+            "Texture": {
+              "_external": "41da812b3426e411bc25b8d744eb38c4",
+              "_class": "1c16c51b6d980adcfba1741505f67ec6"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": ""
+      },
+      {
+        "_type": "TextureShaderParameterTemplate",
+        "_guid": "4e67713f1292fe4981a08a59eadca9ad",
+        "ParameterName": "ScarNormal",
+        "Category": 11,
+        "TextureList": [
+          {
+            "_type": "TextureContainer",
+            "Description": "ScarNormalTexture",
+            "Texture": {
+              "_external": "af95649e37d2e311accab289eff2b287",
+              "_class": "ed17bd72a6026ae1602a892c839f04ef"
+            },
+            "ExcludeFromCharacterCustomization": false
+          },
+          {
+            "_type": "TextureContainer",
+            "Description": "Scar2NormalTexture",
+            "Texture": {
+              "_external": "82a8962e3426e411bc25b8d744eb38c4",
+              "_class": "4883c77b7ef4d94af64d5c37156f7428"
+            },
+            "ExcludeFromCharacterCustomization": false
+          }
+        ],
+        "PresentationName": ""
+      }
+    ],
+    "ChannelShaderParameterTemplates": [
+      {
+        "_type": "ChannelShaderParameterTemplate",
+        "_guid": "2a6685bb3c91b14fafad616574170034",
+        "ParameterName": "EyebrowChannelSelector",
+        "Category": 14,
+        "Default": {
+          "_type": "Vec4",
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "PresentationName": "EyebrowChannelSelector",
+        "AlphaEnabled": false
+      },
+      {
+        "_type": "ChannelShaderParameterTemplate",
+        "_guid": "6db40cc7b5599847a215c38737edb842",
+        "ParameterName": "StubbleSelector_Face",
+        "Category": 13,
+        "Default": {
+          "_type": "Vec4",
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "PresentationName": "",
+        "AlphaEnabled": true
+      },
+      {
+        "_type": "ChannelShaderParameterTemplate",
+        "_guid": "8a251d674aab3240b9c2a22cfbf50593",
+        "ParameterName": "StubbleSelector_Head",
+        "Category": 13,
+        "Default": {
+          "_type": "Vec4",
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 0.0
+        },
+        "PresentationName": "",
+        "AlphaEnabled": true
+      }
+    ],
+    "MorphTargetsResource": 14479825023949607093,
+    "Shapes": "{'_external': '988c427cc48fe1118aa1a21fac69687d', '_class': '6d8fb380c258cb70c03dbeae785dc9fe'}",
+    "FeatureBlends": "{'_external': 'bf9cb6f22872e111ad5ca30b4925971c', '_class': '029659eeb8dc8d1a8140aab7d8e2521b'}",
+    "HeadMeshAssets": [
+      "{'_external': '38cdf59d2b80a31b5991ee501a171289', '_class': '43bf6af59d6bf609e0f5ee685e9f3d9c'}",
+      "{'_external': '38cdf59d2b80a31b5991ee501a171289', '_class': '43bf6af59d6bf609e0f5ee685e9f3d9c'}",
+      "{'_external': '38cdf59d2b80a31b5991ee501a171289', '_class': '43bf6af59d6bf609e0f5ee685e9f3d9c'}",
+      "{'_external': '38cdf59d2b80a31b5991ee501a171289', '_class': '43bf6af59d6bf609e0f5ee685e9f3d9c'}",
+      "{'_external': '38cdf59d2b80a31b5991ee501a171289', '_class': '43bf6af59d6bf609e0f5ee685e9f3d9c'}",
+      "{'_external': '0226c705ce46b8d0f2460d0306538f0e', '_class': '534d59be4442d44fabb627571e740b26'}"
+    ],
+    "HairMeshAssets": [
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}",
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}",
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}",
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}",
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}",
+      "{'_external': 'f72a225cced8e606c3622fd0e25945a1', '_class': 'e42651b8e7d644323f7d1cd68bdf5b31'}",
+      "{'_external': 'b4fd538553f4bde47014b9d2602fec2f', '_class': '575dcb47b7362461c293062b80c88fee'}",
+      "{'_external': '692ad11f5df07b96df665e07812d6276', '_class': 'c8a14fd783a2c73d230ce1247bdce77c'}",
+      "{'_external': 'f6f8993731464bfd0eaecde87b464fe0', '_class': '7641e477842e9cb3c8b62bdaac150ba4'}",
+      "{'_external': '8e8da3a07dcc35f3f29023898108bfb3', '_class': 'fa104a7368897697b881f6925de34761'}",
+      "{'_external': '38f8974b36940372389ecb77e93d4259', '_class': '99cd59cc8ffcd0f9a323aa46c9dd1b02'}",
+      "{'_external': 'f5774281c517f1f82cc165dd8f646686', '_class': 'd9a88f11b0bb4fb61d8d89d326829448'}",
+      "{'_external': 'c286ec7f6456aa6dd24911e740bc4915', '_class': 'e0d5936e878939f56d12f607dd746e06'}",
+      "{'_external': '10642204439240713708b4fe00f7d9c4', '_class': '6498dfa9cc1126a105ffc2f32b62a548'}",
+      "{'_external': 'af8931c88b40d239153d5b0275af229d', '_class': '779ea2de65e125079a548839fd6b39ff'}",
+      "{'_external': '45d76b877f95f177c8f84e7751cb4d32', '_class': '1bbca0bce9b7cfc263df0e9bf703c84f'}",
+      "{'_external': '4c70899d175d8981fc35af56cbcd5cb4', '_class': '4b92b9eb3417c612783969ae6e2a82be'}",
+      "{'_external': 'a0f9105a099b4a3cc990cffa5aae8e6d', '_class': '783213e509d493cb74627ba012505275'}",
+      "{'_external': '42e73e44eaa7f625290eb9952ae95f8d', '_class': '0dd766c5cb3e10ca78aa9a3d61fe0d6c'}",
+      "{'_external': '64c71d70cf368d7064b9caa89d2052de', '_class': '5ce506232a12854cbcee65d6e1e1beaa'}",
+      "{'_external': '55e98df93bd0822dd591863178f88068', '_class': 'cefc562787a8c840b8eec2f6698ed005'}",
+      "{'_external': '35bf5125cfbd2acb500ed3ce96491dab', '_class': '15c9a52d1f6f2b439de82c7dff68d1f7'}"
+    ],
+    "BeardMeshAssets": [],
+    "HornMeshAssets": []
+  },
+  "morph_shapes": {
+    "shapes": [
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      }
+    ]
+  },
+  "morph_sliders": {
+    "two_way": [
+      {
+        "name": "",
+        "category": "Head",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Mouth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Neck",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Neck",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Neck",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 0.0,
+        "right_max": 0.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 0.0,
+        "right_max": 0.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "left_max": 1.0,
+        "right_max": 1.0,
+        "default": 0.0
+      }
+    ],
+    "one_way": [
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Cheeks",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Eyes",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Nose",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Jaw",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Lips",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Teeth",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Ears",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      },
+      {
+        "name": "",
+        "category": "Head",
+        "target_max": 1.0,
+        "default": 0.0
+      }
+    ]
+  }
+}
