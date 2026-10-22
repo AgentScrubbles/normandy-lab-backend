@@ -8,10 +8,11 @@ AI-powered character creator that uses computer vision to reverse-engineer game 
 |------|--------|--------|------|---------|
 | Mass Effect 1 | `me1_female`, `me1_male` | 37 sliders | Code paste | `dataset/female/` |
 | Mass Effect 3 | `me3_female`, `me3_male` | 37 sliders | Code paste | `dataset/me3/female/` |
-| Dragon Age: Inquisition | `dai_human_female` | 56 (sliders + grids + colors) | Direct UI | In progress |
+| Dragon Age: Inquisition | `dai_human_female` | 56 (sliders + grids + colors) | Standalone renderer | `dataset/dai/female/` |
 | Cyberpunk 2077 | `cp2077_female` | 14 sliders | Preset file (ACU mod) | `dataset/cp2077/female/` |
 
 See [Cyberpunk 2077 setup](cyberpunk2077.md) for mod stack and data collection details.
+DA:I uses a standalone renderer (no game needed) — see `renderer/` and `tools/dai_standalone_capture.py`.
 
 ## How It Works
 
@@ -51,6 +52,7 @@ macro_engine.py       - YAML macro execution engine
 
 schemas/              - Game-specific schema implementations
 macros/               - YAML macro definitions per game
+renderer/             - DA:I standalone renderer (Frostbite mesh/morph/PBR pipeline)
 tools/                - Calibration, capture, testing tools
 tests/                - Test images and unit tests
 calibrations/         - Calibration JSON files per game

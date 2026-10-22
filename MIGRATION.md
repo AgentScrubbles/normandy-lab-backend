@@ -19,7 +19,7 @@ This document outlines the migration plan to extend the AI character creator fro
 | **Stage 3.5** | ✅ Complete | Game Type Hierarchy |
 | **Stage 4** | ⏳ Pending | Training Enhancements |
 | **Stage 5** | ⏳ Pending | Data Collection Tooling |
-| **Stage 6** | 🔄 In Progress | Dragon Age Inquisition Schema |
+| **Stage 6** | 🔄 In Progress | Dragon Age Inquisition Schema + Standalone Renderer |
 
 ---
 
@@ -602,13 +602,20 @@ Stage 1: Abstraction Layer ✅
 - [x] All 56 inputs configured (18 sliders, 28 grids, 10 colors)
 - [x] Code generation works (84-char codes)
 - [x] Code encode/decode round-trips correctly
-- [ ] Grid bounds calibrated
-- [ ] Color wheel positions calibrated
-- [ ] Slider click positions implemented
-- [ ] Data collection pilot successful
-- [ ] Training converges
+- [x] Frostbite data extraction pipeline (TOC/SB/CAT/CAS, EBX parser, mesh/morph/texture extraction)
+- [x] Standalone renderer — headless pyrender with PBR materials, no game needed
+- [x] Morph engine — two-way (68), one-way (49), Section 4 (36) morph targets
+- [x] Input mapper — all 56 UI inputs → morph weights + shader params
+- [x] PBR quality pass — normal maps, roughness maps, mesh subdivision, diffuse smoothing
+- [x] Eye texture calibrated to actual mesh UV mapping (iris/sclera proportions)
+- [x] Hair rendering — 16 styles, RGBA card textures with BLEND alpha for strand transparency
+- [x] Makeup post-process — landmark-based (lip, blush, eye shadow, eyeliner)
+- [x] Capture tool — 512x512 default, supersampling, underscore-separated filenames
+- [ ] Generate 10k dataset
+- [ ] Train dual-input model (CNN + face metrics)
+- [ ] Evaluate prediction accuracy
 
 ---
 
-*Last Updated: December 2, 2024*
-*Current Stage: Stage 3.5 Complete, Stage 6 (DAI) in progress with dai_human_female schema implemented*
+*Last Updated: October 22, 2026*
+*Current Stage: Stage 3.5 Complete, Stage 6 (DAI) in progress — standalone renderer complete, dataset generation next*
