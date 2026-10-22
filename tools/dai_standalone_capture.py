@@ -196,8 +196,10 @@ def extract_makeup_params(ui_values: list[int], mapping) -> dict:
 def main():
     parser = argparse.ArgumentParser(description="DA:I standalone face capture")
     parser.add_argument("--count", type=int, default=100, help="Number of faces to generate")
-    parser.add_argument("--width", type=int, default=256, help="Image width")
-    parser.add_argument("--height", type=int, default=256, help="Image height")
+    parser.add_argument("--width", type=int, default=512, help="Image width")
+    parser.add_argument("--height", type=int, default=512, help="Image height")
+    parser.add_argument("--supersampling", type=int, default=1, choices=[1, 2, 4],
+                        help="Render at Nx resolution then downsample (antialiasing)")
     parser.add_argument("--scale", type=float, default=0.5, help="Morph intensity (0-1)")
     parser.add_argument("--seed", type=int, default=None, help="Random seed")
     parser.add_argument("--output", type=str, default=OUTPUT_DIR, help="Output directory")
@@ -258,7 +260,8 @@ def main():
     if args.angles > 3:
         angles += [(0, 5), (0, -5)]  # slight up/down
 
-    print(f"\nGenerating {args.count} faces at {args.width}x{args.height}, "
+    ss_info = f", {args.supersampling}x supersampling" if args.supersampling > 1 else ""
+    print(f"\nGenerating {args.count} faces at {args.width}x{args.height}{ss_info}, "
           f"scale={args.scale}, angles={len(angles)}...")
     start_time = time.time()
     generated = 0
@@ -302,9 +305,13 @@ def main():
         outer_iris_idx = ui_values[20] if len(ui_values) > 20 else 0
         inner_iris_idx = ui_values[21] if len(ui_values) > 21 else 0
 
+        # Supersampling: render at higher resolution, downsample
+        render_w = args.width * args.supersampling
+        render_h = args.height * args.supersampling
+
         for angle_idx, (yaw, pitch) in enumerate(angles):
             image = render_character(morphed, base_idx, base_normals,
-                                     width=args.width, height=args.height,
+                                     width=render_w, height=render_h,
                                      yaw=yaw, pitch=pitch,
                                      skin_tone=skin_tone_idx,
                                      eye_color=eye_color_idx,
@@ -315,6 +322,11 @@ def main():
                                      outer_iris_color=outer_iris_idx,
                                      inner_iris_color=inner_iris_idx,
                                      eyelash_color=makeup.get('eyelash_color'))
+
+            if args.supersampling > 1:
+                pil_img = Image.fromarray(image)
+                pil_img = pil_img.resize((args.width, args.height), Image.LANCZOS)
+                image = np.array(pil_img)
 
             if angle_idx == 0:
                 filename = file_id + ".png"

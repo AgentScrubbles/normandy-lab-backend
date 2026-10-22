@@ -6,5 +6,7 @@ dataset/
 ckpt/
 .env
 __pycache__/
-temp.jpgdataset/dai/
+temp.jpg
+tmp/
+dataset/dai/
 assets/dai/morph_targets.res

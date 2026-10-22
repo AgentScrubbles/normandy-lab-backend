@@ -31,6 +31,10 @@ LASH_TRIS = 424
 # Cached textures (loaded lazily)
 _texture_cache = {}
 
+# Cached PBR maps (computed once)
+_normal_map_cache = {}
+_roughness_map_cache = {}
+
 # Complexion overlay textures — 14 options grouped by visual effect
 # Index 0 = no complexion (default), others blend overlays
 # type: 'blend' = lerp with tinted overlay, 'darken' = darken skin in mask areas
@@ -152,6 +156,137 @@ def _load_texture_rgba(name: str) -> Optional[np.ndarray]:
     return img
 
 
+def _convert_frostbite_normal(rgba: np.ndarray) -> np.ndarray:
+    """Convert Frostbite packed normal map (RGBA) to OpenGL tangent-space RGB.
+
+    Frostbite format: A=X (tangent), G=Y (tangent), R=cavity, B=smoothness.
+    Z is reconstructed: Z = sqrt(1 - X² - Y²).
+    Y is flipped for DX→OpenGL convention.
+    """
+    a = rgba[:, :, 3].astype(np.float32) / 255.0  # X from alpha
+    g = rgba[:, :, 1].astype(np.float32) / 255.0  # Y from green
+
+    # Map from [0,1] to [-1,1]
+    x = a * 2.0 - 1.0
+    y = g * 2.0 - 1.0
+
+    # Reconstruct Z
+    z_sq = np.clip(1.0 - x * x - y * y, 0.0, 1.0)
+    z = np.sqrt(z_sq)
+
+    # Flip Y for OpenGL convention (DX has Y pointing down, GL has Y up)
+    y = -y
+
+    # Map back to [0,255]
+    out = np.zeros((*rgba.shape[:2], 3), dtype=np.uint8)
+    out[:, :, 0] = ((x * 0.5 + 0.5) * 255).clip(0, 255).astype(np.uint8)
+    out[:, :, 1] = ((y * 0.5 + 0.5) * 255).clip(0, 255).astype(np.uint8)
+    out[:, :, 2] = ((z * 0.5 + 0.5) * 255).clip(0, 255).astype(np.uint8)
+    return out
+
+
+def _load_normal_map(name: str = 'hf_hed_inq_n') -> Optional[np.ndarray]:
+    """Load and convert a Frostbite normal map to OpenGL RGB format.
+
+    The raw normal map has high-frequency pore/wrinkle detail that creates harsh
+    micro-shadows without the game's subsurface scattering shader. We smooth it
+    to keep broad surface features (nose, cheekbones) while removing the noise,
+    and attenuate toward flat normal to reduce overall intensity.
+    """
+    if name in _normal_map_cache:
+        return _normal_map_cache[name]
+
+    rgba = _load_texture_rgba(name)
+    if rgba is None:
+        _normal_map_cache[name] = None
+        return None
+
+    result = _convert_frostbite_normal(rgba)
+
+    # Smooth and attenuate: blur to remove pore-level detail, then blend
+    # toward flat normal (128, 128, 255) to reduce overall perturbation
+    from scipy.ndimage import gaussian_filter
+    smoothed = gaussian_filter(result.astype(np.float32), sigma=(6.0, 6.0, 0))
+    flat = np.array([128.0, 128.0, 255.0])
+    # Keep 50% of the (already smoothed) normal map detail
+    blended = flat + (smoothed - flat) * 0.5
+    result = blended.clip(0, 255).astype(np.uint8)
+
+    _normal_map_cache[name] = result
+    return result
+
+
+def _load_roughness_map(name: str = 'hf_hed_inq_s') -> Optional[np.ndarray]:
+    """Load specular map and convert to glTF metallicRoughness texture.
+
+    glTF packs: R=occlusion, G=roughness, B=metallic.
+    Specular→roughness: invert (high spec = low roughness).
+    """
+    if name in _roughness_map_cache:
+        return _roughness_map_cache[name]
+
+    spec = _load_texture(name)
+    if spec is None:
+        _roughness_map_cache[name] = None
+        return None
+
+    # Use R channel as specular (R≈G≈B for this texture)
+    spec_r = spec[:, :, 0].astype(np.float32)
+    roughness = 255.0 - spec_r  # invert: high spec → low roughness
+
+    # Pack into glTF metallic-roughness: R=occlusion(1), G=roughness, B=metallic(0)
+    result = np.zeros((*spec.shape[:2], 3), dtype=np.uint8)
+    result[:, :, 0] = 255  # occlusion = 1.0
+    result[:, :, 1] = roughness.clip(0, 255).astype(np.uint8)
+    result[:, :, 2] = 0    # metallic = 0
+    _roughness_map_cache[name] = result
+    return result
+
+
+def _blend_normal_maps(base: np.ndarray, overlay: np.ndarray,
+                       intensity: float) -> np.ndarray:
+    """Blend two normal maps using linear interpolation + re-normalization."""
+    from PIL import Image as PILImage
+
+    # Resize overlay to match base if needed
+    if overlay.shape[:2] != base.shape[:2]:
+        pil_ov = PILImage.fromarray(overlay).resize(
+            (base.shape[1], base.shape[0]), PILImage.BILINEAR)
+        overlay = np.array(pil_ov)
+
+    # Unpack to [-1,1] normals
+    base_f = base.astype(np.float32) / 255.0 * 2.0 - 1.0
+    over_f = overlay.astype(np.float32) / 255.0 * 2.0 - 1.0
+
+    # Linear blend
+    blended = base_f * (1 - intensity) + over_f * intensity
+
+    # Re-normalize
+    length = np.linalg.norm(blended, axis=2, keepdims=True)
+    length = np.maximum(length, 1e-8)
+    blended = blended / length
+
+    # Pack back to [0,255]
+    return ((blended * 0.5 + 0.5) * 255).clip(0, 255).astype(np.uint8)
+
+
+def _blend_roughness_maps(base: np.ndarray, overlay: np.ndarray,
+                          intensity: float) -> np.ndarray:
+    """Blend two roughness maps (linear interpolation on G channel)."""
+    from PIL import Image as PILImage
+
+    if overlay.shape[:2] != base.shape[:2]:
+        pil_ov = PILImage.fromarray(overlay).resize(
+            (base.shape[1], base.shape[0]), PILImage.BILINEAR)
+        overlay = np.array(pil_ov)
+
+    result = base.copy().astype(np.float32)
+    over_f = overlay.astype(np.float32)
+    # Blend G channel (roughness)
+    result[:, :, 1] = result[:, :, 1] * (1 - intensity) + over_f[:, :, 1] * intensity
+    return result.clip(0, 255).astype(np.uint8)
+
+
 def _make_tinted_face_texture(skin_tone: int = 0, complexion: int = 0,
                                 makeup: dict = None) -> np.ndarray:
     """Create a face texture with skin tint, complexion overlay, and makeup.
@@ -186,7 +321,12 @@ def _make_tinted_face_texture(skin_tone: int = 0, complexion: int = 0,
         tint_color = np.array(get_skin_color(skin_tone), dtype=np.float32)
 
     # Layer 1: Base × tint
+    # The raw diffuse has high-frequency pore/stubble detail that multiply tinting
+    # amplifies into harsh speckles. Smooth the base texture to remove micro-noise
+    # while keeping broad features (nose shadow, cheekbones, lip color).
     rgb = base[:, :, :3].astype(np.float32) if base.shape[2] >= 3 else base.astype(np.float32)
+    from scipy.ndimage import gaussian_filter
+    rgb = gaussian_filter(rgb, sigma=(5.0, 5.0, 0))  # smooth pore-level noise
     result = (rgb * tint_color[np.newaxis, np.newaxis, :]).clip(0, 255)
 
     # Layer 2: Complexion overlay
@@ -217,25 +357,94 @@ def _make_tinted_face_texture(skin_tone: int = 0, complexion: int = 0,
     return result.clip(0, 255).astype(np.uint8)
 
 
+def _get_complexion_normal_name(complexion: int) -> Optional[str]:
+    """Get the normal map texture name for a complexion overlay, if it has one."""
+    if complexion <= 0 or complexion >= len(COMPLEXION_OVERLAYS):
+        return None
+    overlay_info = COMPLEXION_OVERLAYS[complexion]
+    if overlay_info is None:
+        return None
+    base_name = overlay_info[0]
+    # Derive normal map name: replace _d or _m suffix with _n
+    for suffix in ('_d', '_m'):
+        if base_name.endswith(suffix):
+            nmap_name = base_name[:-len(suffix)] + '_n'
+            path = os.path.join(TEX_DIR, f'{nmap_name}.png')
+            if os.path.exists(path):
+                return nmap_name
+    return None
+
+
+def _get_complexion_spec_name(complexion: int) -> Optional[str]:
+    """Get the specular map texture name for a complexion overlay, if it has one."""
+    if complexion <= 0 or complexion >= len(COMPLEXION_OVERLAYS):
+        return None
+    overlay_info = COMPLEXION_OVERLAYS[complexion]
+    if overlay_info is None:
+        return None
+    base_name = overlay_info[0]
+    for suffix in ('_d', '_m'):
+        if base_name.endswith(suffix):
+            smap_name = base_name[:-len(suffix)] + '_s'
+            path = os.path.join(TEX_DIR, f'{smap_name}.png')
+            if os.path.exists(path):
+                return smap_name
+    return None
+
+
+def _make_pbr_maps(complexion: int = 0):
+    """Build face normal and roughness maps, optionally blending complexion overlays.
+
+    Returns (normal_rgb, roughness_rgb) as numpy arrays, or (None, None).
+    """
+    normal = _load_normal_map('hf_hed_inq_n')
+    roughness = _load_roughness_map('hf_hed_inq_s')
+
+    if normal is None:
+        return None, None
+
+    # Blend complexion normal map if present
+    if complexion > 0:
+        overlay_info = COMPLEXION_OVERLAYS[complexion] if complexion < len(COMPLEXION_OVERLAYS) else None
+        if overlay_info is not None:
+            intensity = overlay_info[2]
+            cplx_nmap = _get_complexion_normal_name(complexion)
+            if cplx_nmap:
+                cplx_normal_rgba = _load_texture_rgba(cplx_nmap)
+                if cplx_normal_rgba is not None:
+                    cplx_normal = _convert_frostbite_normal(cplx_normal_rgba)
+                    normal = _blend_normal_maps(normal, cplx_normal, intensity)
+
+            cplx_smap = _get_complexion_spec_name(complexion)
+            if cplx_smap and roughness is not None:
+                cplx_spec = _load_roughness_map(cplx_smap)
+                if cplx_spec is not None:
+                    roughness = _blend_roughness_maps(roughness, cplx_spec, intensity)
+
+    return normal, roughness
+
 
 def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
                        inner_iris_idx: int = -1, size: int = 512) -> np.ndarray:
     """Generate a proper eye texture with sclera, limbal ring, outer iris, inner iris, and pupil.
 
-    The eye mesh UV maps the eyeball surface, with the iris area centered.
-    This generates a texture that looks like an actual eye rather than a flat color fill.
+    The eye mesh UV maps the eyeball hemisphere to [0,1]² centered at (0.5,0.5).
+    Analysis of the actual eye mesh UVs shows the iris maps to UV radius ~0.057
+    from center (about 6% of texture), so all iris/pupil features must be tiny
+    relative to the full texture, with sclera filling most of the space.
     """
     img = np.ones((size, size, 3), dtype=np.float32)
 
     cy, cx = size // 2, size // 2
 
-    # Define radii as fractions of size
-    sclera_r = size * 0.48       # white of eye
-    limbal_r = size * 0.38       # dark ring around iris
-    outer_iris_r = size * 0.35   # outer iris zone
-    inner_iris_r = size * 0.20   # inner iris zone
-    pupil_r = size * 0.12        # pupil
-    highlight_r = size * 0.04    # specular highlight
+    # Radii calibrated to actual eye mesh UV mapping:
+    # Pupil center: UV radius ~0.057, iris ring: ~0.11-0.19, sclera: ~0.19-0.48
+    sclera_r = size * 0.48       # white of eye — fills most of texture
+    limbal_r = size * 0.16       # dark ring around iris edge
+    outer_iris_r = size * 0.13   # outer iris zone
+    inner_iris_r = size * 0.07   # inner iris zone (lighter core)
+    pupil_r = size * 0.035       # pupil
+    highlight_r = size * 0.012   # specular highlight
 
     y, x = np.ogrid[:size, :size]
     dist = np.sqrt((x - cx) ** 2 + (y - cy) ** 2).astype(np.float32)
@@ -249,7 +458,6 @@ def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
     if inner_iris_idx >= 0:
         inner_ec = IRIS_PALETTE[min(inner_iris_idx, len(IRIS_PALETTE) - 1)]
     else:
-        # Inner iris is usually lighter/warmer than outer
         inner_ec = tuple(min(1.0, c + 0.1) for c in main_ec)
 
     # Sclera (off-white with slight pink towards edges)
@@ -260,27 +468,31 @@ def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
         img[:, :, c] = sclera_color[c] * (1 - sclera_t) + sclera_edge[c] * sclera_t
 
     # Limbal ring (dark ring around iris edge)
-    limbal_color = np.array([0.12, 0.10, 0.08])
-    limbal_mask = (dist < limbal_r + 2) & (dist > outer_iris_r - 1)
-    limbal_t = 1.0 - np.abs(dist - (limbal_r + outer_iris_r) / 2) / ((limbal_r - outer_iris_r) / 2 + 1)
-    limbal_t = np.clip(limbal_t, 0, 1) ** 2
+    limbal_color = np.array([0.15, 0.12, 0.10])
+    limbal_inner = outer_iris_r
+    limbal_outer = limbal_r
+    limbal_band = (dist < limbal_outer + 2) & (dist > limbal_inner - 1)
+    limbal_center_r = (limbal_inner + limbal_outer) / 2
+    limbal_half_w = (limbal_outer - limbal_inner) / 2 + 1
+    limbal_t = 1.0 - np.abs(dist - limbal_center_r) / limbal_half_w
+    limbal_t = np.clip(limbal_t, 0, 1) ** 1.5
     for c in range(3):
-        img[:, :, c] = np.where(limbal_mask,
+        img[:, :, c] = np.where(limbal_band,
                                  img[:, :, c] * (1 - limbal_t) + limbal_color[c] * limbal_t,
                                  img[:, :, c])
 
     # Outer iris — radial pattern with color variation
     outer_mask = dist < outer_iris_r
     outer_color = np.array(outer_ec, dtype=np.float32)
-    outer_dark = outer_color * 0.6  # darker at edges
-    iris_t = np.clip(dist / outer_iris_r, 0, 1)  # 0 at center, 1 at edge
+    outer_dark = outer_color * 0.6
+    iris_t = np.clip(dist / outer_iris_r, 0, 1)
 
-    # Add radial streaks for natural iris pattern
+    # Radial streaks for natural iris pattern
     angle = np.arctan2(y - cy, x - cx).astype(np.float32)
-    streak = (np.sin(angle * 12) * 0.5 + 0.5) * 0.15  # subtle radial variation
+    streak = (np.sin(angle * 16) * 0.5 + 0.5) * 0.12
 
     for c in range(3):
-        iris_val = outer_color[c] * (1 - iris_t * 0.4) + outer_dark[c] * (iris_t * 0.4) + streak * 0.1
+        iris_val = outer_color[c] * (1 - iris_t * 0.4) + outer_dark[c] * (iris_t * 0.4) + streak * 0.08
         img[:, :, c] = np.where(outer_mask, iris_val, img[:, :, c])
 
     # Inner iris — lighter/warmer core
@@ -292,9 +504,10 @@ def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
         img[:, :, c] = np.where(inner_mask, blended, img[:, :, c])
 
     # Pupil with soft edge
+    pupil_edge_r = pupil_r * 1.3
     pupil_mask = dist < pupil_r
-    pupil_edge = dist < pupil_r * 1.2
-    pupil_t = np.clip((pupil_r * 1.2 - dist) / (pupil_r * 0.2 + 1), 0, 1)
+    pupil_edge = dist < pupil_edge_r
+    pupil_t = np.clip((pupil_edge_r - dist) / (pupil_edge_r - pupil_r + 0.5), 0, 1)
     for c in range(3):
         img[:, :, c] = np.where(pupil_edge,
                                  img[:, :, c] * (1 - pupil_t) + 0.02 * pupil_t,
@@ -302,8 +515,8 @@ def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
     for c in range(3):
         img[:, :, c] = np.where(pupil_mask, 0.02, img[:, :, c])
 
-    # Specular highlights
-    for hx_off, hy_off, hr_mult in [(-0.10, -0.10, 1.0), (0.06, -0.06, 0.4)]:
+    # Specular highlights (small, near pupil)
+    for hx_off, hy_off, hr_mult in [(-0.025, -0.025, 1.0), (0.012, -0.012, 0.5)]:
         h_cx = cx + size * hx_off
         h_cy = cy + size * hy_off
         h_dist = np.sqrt((x - h_cx) ** 2 + (y - h_cy) ** 2).astype(np.float32)
@@ -311,7 +524,7 @@ def _make_eye_texture(eye_color_idx: int = 0, outer_iris_idx: int = -1,
         h_mask = h_dist < h_r
         h_t = np.clip(1.0 - h_dist / h_r, 0, 1) ** 2
         for c in range(3):
-            img[:, :, c] = np.where(h_mask, img[:, :, c] + h_t * 0.8, img[:, :, c])
+            img[:, :, c] = np.where(h_mask, img[:, :, c] + h_t * 0.9, img[:, :, c])
 
     return (img.clip(0, 1) * 255).astype(np.uint8)
 
@@ -443,7 +656,8 @@ def render_character(positions: np.ndarray, indices: np.ndarray,
                      hair_style: str = None, hair_color: tuple = None,
                      makeup: dict = None, complexion: int = 0,
                      outer_iris_color: int = -1, inner_iris_color: int = -1,
-                     eyelash_color: tuple = None) -> np.ndarray:
+                     eyelash_color: tuple = None,
+                     subdivisions: int = 1) -> np.ndarray:
     """Render a complete character with face, eyes, lashes, and hair.
 
     Args:
@@ -462,6 +676,7 @@ def render_character(positions: np.ndarray, indices: np.ndarray,
         outer_iris_color: outer iris color picker index (0-11), -1 = use eye_color
         inner_iris_color: inner iris color picker index (0-11), -1 = use eye_color
         eyelash_color: (R,G,B) tuple for lash color, None = dark
+        subdivisions: number of midpoint subdivision iterations for face/eye mesh (0=none)
     """
     from PIL import Image as PILImage
 
@@ -477,17 +692,66 @@ def render_character(positions: np.ndarray, indices: np.ndarray,
      lash_pos, lash_idx, lash_norms, lash_uvs) = _split_head_sections(
         positions, indices, normals, uvs)
 
+    # Subdivide face and eye meshes to eliminate faceting
+    for _ in range(subdivisions):
+        if face_uvs is not None:
+            attrs = {'uvs': face_uvs}
+            if face_norms is not None:
+                attrs['normals'] = face_norms
+            face_pos, face_idx, attrs = trimesh.remesh.subdivide(
+                face_pos, face_idx, vertex_attributes=attrs)
+            face_uvs = attrs['uvs']
+            face_norms = attrs.get('normals')
+        elif face_norms is not None:
+            face_pos, face_idx, attrs = trimesh.remesh.subdivide(
+                face_pos, face_idx, vertex_attributes={'normals': face_norms})
+            face_norms = attrs['normals']
+        else:
+            face_pos, face_idx = trimesh.remesh.subdivide(face_pos, face_idx)
+
+        # Subdivide eyes too
+        if eye_uvs is not None:
+            eye_attrs = {'uvs': eye_uvs}
+            if eye_norms is not None:
+                eye_attrs['normals'] = eye_norms
+            eye_pos, eye_idx, eye_attrs = trimesh.remesh.subdivide(
+                eye_pos, eye_idx, vertex_attributes=eye_attrs)
+            eye_uvs = eye_attrs['uvs']
+            eye_norms = eye_attrs.get('normals')
+        elif eye_norms is not None:
+            eye_pos, eye_idx, eye_attrs = trimesh.remesh.subdivide(
+                eye_pos, eye_idx, vertex_attributes={'normals': eye_norms})
+            eye_norms = eye_attrs['normals']
+        else:
+            eye_pos, eye_idx = trimesh.remesh.subdivide(eye_pos, eye_idx)
+
     meshes = []
     materials = []
 
     # Face section — textured with diffuse + skin tint + complexion + makeup
+    # Plus PBR normal map and roughness map
     face_tex = _make_tinted_face_texture(skin_tone, complexion, makeup)
     face_pil = PILImage.fromarray(face_tex)
-    face_mat = pyrender.MetallicRoughnessMaterial(
+
+    normal_map, roughness_map = _make_pbr_maps(complexion)
+
+    mat_kwargs = dict(
         baseColorTexture=pyrender.Texture(source=face_pil, source_channels='RGB'),
         metallicFactor=0.0,
-        roughnessFactor=0.6,
     )
+    if normal_map is not None:
+        normal_pil = PILImage.fromarray(normal_map)
+        mat_kwargs['normalTexture'] = pyrender.Texture(
+            source=normal_pil, source_channels='RGB')
+    if roughness_map is not None:
+        roughness_pil = PILImage.fromarray(roughness_map)
+        mat_kwargs['metallicRoughnessTexture'] = pyrender.Texture(
+            source=roughness_pil, source_channels='RGB')
+        mat_kwargs['roughnessFactor'] = 1.0  # modulated by texture
+    else:
+        mat_kwargs['roughnessFactor'] = 0.6
+
+    face_mat = pyrender.MetallicRoughnessMaterial(**mat_kwargs)
     face_mesh = load_mesh_from_arrays(face_pos, face_idx, face_norms, face_uvs)
     meshes.append(face_mesh)
     materials.append(face_mat)
@@ -528,8 +792,7 @@ def render_character(positions: np.ndarray, indices: np.ndarray,
                 baseColorTexture=pyrender.Texture(source=hair_pil, source_channels='RGBA'),
                 metallicFactor=0.05,
                 roughnessFactor=0.55,
-                alphaMode='MASK',
-                alphaCutoff=0.3,
+                alphaMode='BLEND',
             )
             meshes.append(hair_mesh)
             materials.append(hair_mat)
