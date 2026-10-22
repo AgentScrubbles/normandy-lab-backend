@@ -39,6 +39,15 @@ class OneWaySlider:
     target_max: float
 
 
+@dataclass
+class MorphShape:
+    """A morph shape (Section 4) — single-direction delta with target_max and flags."""
+    data_offset: int      # offset to delta positions
+    norm_offset: int      # offset to delta normals
+    target_max: float
+    flags: int
+
+
 class MorphTargetResource:
     """Parses and manages morph target data from a DA:I MorphTargetsResource."""
 
@@ -127,6 +136,23 @@ class MorphTargetResource:
                     target_max=target_max,
                 ))
 
+        # Parse Section 4: morph shapes (24 bytes each: u64 data, u64 norm, f32 max, u32 flags)
+        self.morph_shapes = []
+        sec4_start = self.offsets[4]
+        for i in range(self.num_shapes_sec4):
+            base = sec4_start + i * 24
+            data_off = struct.unpack_from('<Q', self.data, base)[0]
+            norm_off = struct.unpack_from('<Q', self.data, base + 8)[0]
+            target_max = struct.unpack_from('<f', self.data, base + 16)[0]
+            flags = struct.unpack_from('<I', self.data, base + 20)[0]
+
+            self.morph_shapes.append(MorphShape(
+                data_offset=data_off,
+                norm_offset=norm_off,
+                target_max=target_max,
+                flags=flags,
+            ))
+
     def _read_string(self, offset: int) -> str:
         if offset == 0 or offset >= len(self.data):
             return ""
@@ -134,14 +160,20 @@ class MorphTargetResource:
         return self.data[offset:end].decode('utf-8', errors='replace')
 
     def read_positions(self, offset: int) -> np.ndarray:
-        """Read LOD0 vertex positions from a data offset."""
-        positions = np.zeros((self.lod0_verts, 3), dtype=np.float32)
-        for v in range(self.lod0_verts):
-            off = offset + v * 16
-            if off + 16 <= len(self.data):
-                x, y, z = struct.unpack_from('<3f', self.data, off)
-                positions[v] = [x, y, z]
-        return positions
+        """Read LOD0 vertex positions from a data offset (float4 stride, xyz extracted)."""
+        nbytes = self.lod0_verts * 16
+        if offset + nbytes > len(self.data):
+            # Fallback for truncated data
+            positions = np.zeros((self.lod0_verts, 3), dtype=np.float32)
+            for v in range(self.lod0_verts):
+                off = offset + v * 16
+                if off + 16 <= len(self.data):
+                    x, y, z = struct.unpack_from('<3f', self.data, off)
+                    positions[v] = [x, y, z]
+            return positions
+        raw = np.frombuffer(self.data, dtype=np.float32, count=self.lod0_verts * 4, offset=offset)
+        float4 = raw.reshape(self.lod0_verts, 4)
+        return float4[:, :3].copy()
 
     def get_shape_positions(self, shape_idx: int) -> np.ndarray:
         """Get absolute vertex positions for a shape target."""
@@ -164,9 +196,16 @@ class MorphTargetResource:
             raise IndexError(f"Slider index {slider_idx} >= {len(self.oneway_sliders)}")
         return self.read_positions(self.oneway_sliders[slider_idx].data_offset)
 
+    def get_shape_deltas(self, shape_idx: int) -> np.ndarray:
+        """Get position deltas for a Section 4 morph shape."""
+        if shape_idx >= len(self.morph_shapes):
+            raise IndexError(f"Shape index {shape_idx} >= {len(self.morph_shapes)}")
+        return self.read_positions(self.morph_shapes[shape_idx].data_offset)
+
     def apply_morphs(self, base_positions: np.ndarray,
                      twoway_weights: list[float] = None,
-                     oneway_weights: list[float] = None) -> np.ndarray:
+                     oneway_weights: list[float] = None,
+                     shape_weights: list[float] = None) -> np.ndarray:
         """Apply morph target deformations to base positions.
 
         Args:
@@ -174,6 +213,7 @@ class MorphTargetResource:
             twoway_weights: list of weights for two-way sliders (-1 to +1)
                            negative = left direction, positive = right
             oneway_weights: list of weights for one-way sliders (0 to 1)
+            shape_weights: list of weights for Section 4 morph shapes (0 to target_max)
 
         Returns:
             (N, 3) deformed vertex positions
@@ -188,10 +228,8 @@ class MorphTargetResource:
                 left_delta, right_delta = self.get_twoway_deltas(i)
 
                 if weight < 0:
-                    # Apply left delta
                     result += left_delta * abs(weight)
                 else:
-                    # Apply right delta
                     result += right_delta * weight
 
         if oneway_weights:
@@ -200,6 +238,14 @@ class MorphTargetResource:
                     continue
 
                 delta = self.get_oneway_deltas(i)
+                result += delta * weight
+
+        if shape_weights:
+            for i, weight in enumerate(shape_weights):
+                if i >= len(self.morph_shapes) or abs(weight) < 1e-6:
+                    continue
+
+                delta = self.get_shape_deltas(i)
                 result += delta * weight
 
         return result

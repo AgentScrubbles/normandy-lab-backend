@@ -521,9 +521,15 @@ def _read_vertex_data(data: bytes, fmt: int) -> tuple:
         return struct.unpack_from('<3f', data)
     elif fmt == VertexFormat.FLOAT4:
         return struct.unpack_from('<4f', data)
+    elif fmt == VertexFormat.HALF:
+        h1 = struct.unpack_from('<H', data)[0]
+        return (_half_to_float(h1),)
     elif fmt == VertexFormat.HALF2:
         h1, h2 = struct.unpack_from('<2H', data)
         return (_half_to_float(h1), _half_to_float(h2))
+    elif fmt == VertexFormat.HALF3:
+        h1, h2, h3 = struct.unpack_from('<3H', data)
+        return (_half_to_float(h1), _half_to_float(h2), _half_to_float(h3))
     elif fmt == VertexFormat.HALF4:
         h1, h2, h3, h4 = struct.unpack_from('<4H', data)
         return (_half_to_float(h1), _half_to_float(h2), _half_to_float(h3), _half_to_float(h4))

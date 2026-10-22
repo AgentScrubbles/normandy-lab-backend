@@ -11,7 +11,7 @@ Input Types:
 - Color Pickers: 10 inputs (color wheel selections)
 """
 
-from typing import List
+from typing import List, Optional
 import os
 
 from base_schema import (
@@ -207,6 +207,26 @@ class DAI_Human_Female_Schema(BaseSchema):
         inputs.append(Slider(pos, "Lip Shine", 11))
 
         return inputs
+
+    def parse_filename(self, stem: str) -> Optional[List[int]]:
+        """Parse underscore-separated integer values from filename.
+
+        Standalone capture tool encodes all 56 UI values as underscore-separated
+        integers: e.g. '3_5_7_22_...' where each value is the quantized option index.
+        """
+        parts = stem.split('_')
+        inputs = self.get_inputs()
+        if len(parts) != len(inputs):
+            return None
+        try:
+            labels = []
+            for part, inp in zip(parts, inputs):
+                val = int(part)
+                val = min(val, inp.num_classes() - 1)
+                labels.append(val)
+            return labels
+        except ValueError:
+            return None
 
     def get_code_file(self) -> str:
         return self.CODE_FILE

@@ -417,15 +417,33 @@ class Trainer:
 
 class CodeImageDataset(Dataset):
 
-    def __init__(self, root: str, char2idx, schema: BaseSchema, transform=None):
+    def __init__(self, root: str, char2idx, schema: BaseSchema, transform=None,
+                 load_metrics: bool = False):
         self.root = Path(root)
         self.transform = transform
         # Collect png files only; you can extend to jpg
         self.files = [p for p in self.root.glob('*.png')]
         self.char2idx = char2idx
         self.schema = schema
+        self.metrics = None
         if len(self.files) == 0:
             raise RuntimeError(f"No .png files found under {self.root}")
+
+        if load_metrics:
+            self._load_metrics()
+
+    def _load_metrics(self):
+        metrics_path = self.root / "metrics.npz"
+        if not metrics_path.exists():
+            return
+        data = np.load(metrics_path, allow_pickle=True)
+        keys = data['keys']
+        ratios = data['ratios']
+        encodings = data['encodings']
+        self.metrics = {}
+        for k, r, e in zip(keys, ratios, encodings):
+            combined = np.concatenate([r, e]).astype(np.float32)
+            self.metrics[str(k)] = combined
 
     def __len__(self):
         return len(self.files)
@@ -476,6 +494,16 @@ class CodeImageDataset(Dataset):
         if self.transform:
             img = self.transform(img)
         label = self._code_to_label(code)
+
+        if self.metrics is not None:
+            metrics_vec = self.metrics.get(code)
+            if metrics_vec is not None:
+                return img, label, code, torch.tensor(metrics_vec, dtype=torch.float32)
+            else:
+                # Zero vector fallback
+                sample_len = next(iter(self.metrics.values())).shape[0]
+                return img, label, code, torch.zeros(sample_len, dtype=torch.float32)
+
         return img, label, code
     
     def remove_periods(self, code_with_periods: str) -> str:
@@ -483,7 +511,8 @@ class CodeImageDataset(Dataset):
         return code_with_periods.replace('.', '')
 
 class CodePredictor(nn.Module):
-    def __init__(self, num_classes_per_digit: List[int]):
+    def __init__(self, num_classes_per_digit: List[int],
+                 num_ratios: int = 0, num_encoding: int = 0):
         super().__init__()
         # Try to load with weights; fallback to no weights if torch/torchvision versions differ
         try:
@@ -496,14 +525,44 @@ class CodePredictor(nn.Module):
         # We'll keep the first Linear + Hardswish to get a 1024-dim feature
         cls = backbone.classifier
         self.proj = nn.Sequential(cls[0], cls[1])  # Linear->Hardswish, outputs 1024
-        in_features = 1024
-        # Create one head per digit position
-        self.heads = nn.ModuleList([nn.Linear(in_features, n) for n in num_classes_per_digit])
+        cnn_features = 1024
 
-    def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
+        # Dual-input: optional facial metrics (ratios + encoding)
+        self.num_ratios = num_ratios
+        self.num_encoding = num_encoding
+        metrics_dim = num_ratios + num_encoding
+
+        if metrics_dim > 0:
+            in_features = cnn_features + metrics_dim
+            self.metrics_proj = nn.Sequential(
+                nn.Linear(in_features, 512),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+            )
+            head_in = 512
+        else:
+            self.metrics_proj = None
+            head_in = cnn_features
+
+        # Create one head per digit position
+        self.heads = nn.ModuleList([nn.Linear(head_in, n) for n in num_classes_per_digit])
+
+    def forward(self, x: torch.Tensor,
+                metrics: torch.Tensor = None) -> List[torch.Tensor]:
         x = self.features(x)
         # Global average pool
         x = F.adaptive_avg_pool2d(x, 1).flatten(1)
         x = self.proj(x)
+
+        if self.metrics_proj is not None:
+            if metrics is not None:
+                x = torch.cat([x, metrics], dim=1)
+            else:
+                # Zero-pad metrics when not provided
+                zeros = torch.zeros(x.shape[0], self.num_ratios + self.num_encoding,
+                                    device=x.device, dtype=x.dtype)
+                x = torch.cat([x, zeros], dim=1)
+            x = self.metrics_proj(x)
+
         outs = [head(x) for head in self.heads]
         return outs

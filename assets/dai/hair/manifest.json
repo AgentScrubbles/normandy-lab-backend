@@ -1,0 +1,82 @@
+[
+  {
+    "name": "mh_hf_047",
+    "verts": 9243,
+    "tris": 12784
+  },
+  {
+    "name": "mh_hf_050",
+    "verts": 6713,
+    "tris": 9143
+  },
+  {
+    "name": "mh_hf_052",
+    "verts": 5041,
+    "tris": 6977
+  },
+  {
+    "name": "mh_hf_d",
+    "verts": 5820,
+    "tris": 8422
+  },
+  {
+    "name": "mh_hf_db",
+    "verts": 5926,
+    "tris": 8673
+  },
+  {
+    "name": "mh_hf_e",
+    "verts": 4121,
+    "tris": 5195
+  },
+  {
+    "name": "mh_hf_g",
+    "verts": 3751,
+    "tris": 5287
+  },
+  {
+    "name": "mh_hf_h",
+    "verts": 5472,
+    "tris": 6991
+  },
+  {
+    "name": "mh_hf_k",
+    "verts": 2711,
+    "tris": 3981
+  },
+  {
+    "name": "mh_hf_m",
+    "verts": 5996,
+    "tris": 7973
+  },
+  {
+    "name": "mh_hf_n",
+    "verts": 5090,
+    "tris": 7386
+  },
+  {
+    "name": "mh_hf_p",
+    "verts": 6021,
+    "tris": 7877
+  },
+  {
+    "name": "mh_hf_pb",
+    "verts": 6855,
+    "tris": 9244
+  },
+  {
+    "name": "mh_hf_pc",
+    "verts": 5859,
+    "tris": 7742
+  },
+  {
+    "name": "mh_hf_q",
+    "verts": 4648,
+    "tris": 6578
+  },
+  {
+    "name": "mh_hf_u",
+    "verts": 4103,
+    "tris": 5617
+  }
+]
